@@ -26,7 +26,8 @@ class UserProfile(AbstractUser):
     cost_center = models.CharField(max_length=256, blank=True)
     object_sid = models.CharField(max_length=256, blank=True)
     sam_account_name = models.CharField(max_length=256, blank=True)
-    history = HistoricalRecords(app="audit", custom_model_name=lambda x: f'Account{x}')
+
+    # history = HistoricalRecords(app="audit", custom_model_name=lambda x: f'Account{x}')
 
     class Meta:
         verbose_name = 'User Profile'
