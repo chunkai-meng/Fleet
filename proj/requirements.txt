@@ -1,0 +1,9 @@
+django>=3.1
+Pillow
+uWSGI
+requests
+django-cas-ng
+django-mssql-backend
+djangorestframework
+django-cors-headers
+django-simple-history
