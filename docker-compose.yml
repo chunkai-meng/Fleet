@@ -1,0 +1,59 @@
+version: '3.6'
+
+services:
+
+  fleet-prod:
+    build:
+      context: .
+      dockerfile: ubuntu18.04.Dockerfile
+    image: fleet-prod:latest
+    container_name: fleet-prod
+    restart: always
+    environment:
+      DJANGO_SETTINGS_MODULE: proj.settings.prod
+    command: uwsgi /proj/uwsgi.ini
+    volumes:
+      - ./proj:/proj
+    #    ports:
+    #      - "8300:8888"
+    networks:
+      - fleet
+
+  fleet-test:
+    build:
+      context: .
+      dockerfile: ubuntu18.04.Dockerfile
+    image: fleet-test:latest
+    container_name: fleet-test
+    restart: always
+    environment:
+      DJANGO_SETTINGS_MODULE: proj.settings.test
+    # command: uwsgi /proj/uwsgi.ini
+    command: python3 manage.py runserver 0.0.0.0:8888
+    volumes:
+      - ./proj:/proj
+    ports:
+      - "8300:8888"
+    networks:
+      - fleet
+
+  fleet-dev:
+    build:
+      context: .
+      dockerfile: ubuntu18.04.Dockerfile
+    image: fleet-dev:latest
+    container_name: fleet-dev
+    restart: always
+    environment:
+      DJANGO_SETTINGS_MODULE: proj.settings.dev
+    command: python3 manage.py runserver 0.0.0.0:8888
+    volumes:
+      - ./proj:/proj
+    ports:
+      - "8100:8888"
+    networks:
+      - fleet
+
+networks:
+  fleet:
+    name: fleet
