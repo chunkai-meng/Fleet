@@ -33,7 +33,7 @@ services:
     volumes:
       - ./proj:/proj
     ports:
-      - "8300:8888"
+      - 8300:8888
     networks:
       - fleet
 

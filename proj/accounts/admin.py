@@ -18,6 +18,11 @@ class UserProfileAdmin(UserAdmin, SimpleHistoryAdmin):
         ('LDAP Fields', {'fields': ('cn_name', 'display_name')}),
         ('Django ID', {'fields': ('username', 'password')}),
         ('Personal info', {'fields': ('first_name', 'last_name', 'email')}),
+        ('Fleet info', {
+            'fields': ('user_id', 'driver_license', 'department_id', 'license_class', 'license_expiry_date',
+                       'role', 'status', 'mobile', 'created_by_id', 'created_at', 'updated_by_id', 'updated_at',
+                       'original_id', 'cdate')
+        }),
         ('Permissions', {
             'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions'),
         }),
@@ -25,6 +30,7 @@ class UserProfileAdmin(UserAdmin, SimpleHistoryAdmin):
     )
     list_editable = ['is_staff']
     list_per_page = 30
+    readonly_fields = ('user_id', 'created_by_id', 'created_at', 'updated_by_id', 'updated_at',)
     ordering = ['id']
 
 
