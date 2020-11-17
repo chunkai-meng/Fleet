@@ -1,0 +1,13 @@
+### Django ###
+*.log
+*.pot
+*.pyc
+__pycache__/
+local_settings.py
+www/
+proj/media
+env
+.venv/
+.idea/
+.vscode/
+proj/test-db.sqlite3
