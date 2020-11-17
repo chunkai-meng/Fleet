@@ -22,7 +22,7 @@ services:
   fleet-test:
     build:
       context: .
-      dockerfile: ubuntu18.04.Dockerfile
+      dockerfile: python3.7.Dockerfile
     image: fleet-test:latest
     container_name: fleet-test
     restart: always

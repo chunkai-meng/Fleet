@@ -11,7 +11,8 @@ ALLOWED_HOSTS = [
 DATABASES = {
     'default': {
         'ENGINE': 'sql_server.pyodbc',
-        'NAME': 'fleetCK',
+        # 'NAME': 'fleetCK',
+        'NAME': 'django-test',
         'USER': 'aa',
         'PASSWORD': 'C19098)(*C19',
         'HOST': '192.168.26.127',

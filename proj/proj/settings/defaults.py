@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django_cas_ng',
     'api_key',
     'accounts.apps.AccountsConfig',
+    'fleet.apps.FleetConfig',
 ]
 
 MIDDLEWARE = [
