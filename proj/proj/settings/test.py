@@ -11,8 +11,8 @@ ALLOWED_HOSTS = [
 DATABASES = {
     'default': {
         'ENGINE': 'sql_server.pyodbc',
-        # 'NAME': 'fleetCK',
-        'NAME': 'django-test',
+        'NAME': 'fleetCK',
+        # 'NAME': 'django-test',
         'USER': 'aa',
         'PASSWORD': 'C19098)(*C19',
         'HOST': '192.168.26.127',
@@ -24,7 +24,10 @@ DATABASES = {
 }
 
 CAS_SERVER_URL = 'http://test-cas.waipareira.com/cas/'
-# CAS_SERVER_URL = 'http://0.0.0.0:8003/cas/'
-# DOMAIN = 'http://127.0.0.1:8000'
-# CAS_REDIRECT_URL = '/api/admin/'
-# SIMPLE_HISTORY_REVERT_DISABLED = True
+CAS_VERSION = '3'
+CAS_APPLY_ATTRIBUTES_TO_USER = True
+CAS_REDIRECT_URL = '/api/admin/'
+
+LOGOUT_REDIRECT_URL = '/api/admin/'
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_COOKIE_AGE = 14400  # (4h)

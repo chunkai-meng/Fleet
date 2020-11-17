@@ -9,30 +9,6 @@ def get_non_ad_sid():
     return 'NON-AD-USER-' + get_random_string()
 
 
-class UserInfo(models.Model):
-    user_id = models.CharField(db_column='UserID', max_length=50)
-    firstname = models.CharField(db_column='FirstName', max_length=50)
-    lastname = models.CharField(db_column='LastName', max_length=50)
-    driver_license = models.CharField(db_column='DriverLicense', max_length=50, blank=True, null=True)
-    email_address = models.CharField(db_column='EmailAddress', max_length=50, blank=True, null=True)
-    department_id = models.CharField(db_column='DepartmentID', max_length=50, blank=True, null=True)
-    license_class = models.CharField(db_column='LicenseClass', max_length=30, blank=True, null=True)
-    license_expiry_date = models.DateTimeField(db_column='LicenseExpiryDate', blank=True, null=True)
-    role = models.SmallIntegerField(db_column='Role', blank=True, null=True)
-    status = models.IntegerField(db_column='Status', blank=True, null=True)
-    mobile = models.CharField(db_column='Mobile', max_length=50, blank=True, null=True)
-    created_by_id = models.CharField(db_column='CreatedByID', max_length=32, blank=True, null=True)
-    created_at = models.DateTimeField(db_column='CreatedAt', blank=True, null=True)
-    updated_by_id = models.CharField(db_column='UpdatedByID', max_length=32, blank=True, null=True)
-    updated_at = models.DateTimeField(db_column='UpdatedAt', blank=True, null=True)
-    original_id = models.IntegerField(db_column='OriginalID', blank=True, null=True)
-    cdate = models.DateTimeField(db_column='Cdate', blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'UserInfo'
-
-
 # Create your models here.
 class UserProfile(AbstractUser):
     GENDER = (
@@ -51,7 +27,8 @@ class UserProfile(AbstractUser):
     cost_center = models.CharField(max_length=256, blank=True)
     object_sid = models.CharField(max_length=256, default=get_non_ad_sid, unique=True)
     sam_account_name = models.CharField(max_length=256, default=get_random_string, unique=True)
-    history = HistoricalRecords(app="audit", custom_model_name=lambda x: f'Account{x}')
+
+    # history = HistoricalRecords(app="audit", custom_model_name=lambda x: f'Account{x}')
 
     class Meta:
         verbose_name = 'User Profile'

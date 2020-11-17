@@ -3,10 +3,13 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import Group
 from .models import UserProfile
 from .forms import GroupAdminForm
-from simple_history.admin import SimpleHistoryAdmin
 
 
-class UserProfileAdmin(UserAdmin, SimpleHistoryAdmin):
+# from simple_history.admin import SimpleHistoryAdmin
+
+
+# class UserProfileAdmin(UserAdmin, SimpleHistoryAdmin):
+class UserProfileAdmin(UserAdmin):
     list_display = (
         'id',
         'username', 'email', 'first_name',
