@@ -5,7 +5,7 @@ STATUS_DELETED = -1
 
 class CommonQuerySet(models.QuerySet):
     def delete(self):
-        self.update(status=STATUS_DELETED)
+        self.update(Status=STATUS_DELETED)
 
 
 class CommonManager(models.Manager):
@@ -15,7 +15,7 @@ class CommonManager(models.Manager):
         return CommonQuerySet(self.model, using=self._db)
 
     def deleted(self):
-        return self.with_deleted().filter(status=STATUS_DELETED)
+        return self.with_deleted().filter(Status=STATUS_DELETED)
 
     def get_queryset(self):
-        return self.with_deleted().exclude(status=STATUS_DELETED)
+        return self.with_deleted().exclude(Status=STATUS_DELETED)

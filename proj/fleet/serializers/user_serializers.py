@@ -1,15 +1,25 @@
 from rest_framework import serializers
 from ..models import UserInfo
+# from ..utils import uppercase_field_name
+from ..base_serializers import DynamicFieldsModelSerializer
 
 
-class UserInfoSerializer(serializers.ModelSerializer):
+class UserInfoSerializer(DynamicFieldsModelSerializer):
     total = serializers.SerializerMethodField()
+    Username = serializers.ReadOnlyField(source='username')
 
     class Meta:
         model = UserInfo
-        fields = ('created_by_id', 'department_id', 'driver_license',
-                  'email_address', 'license_class', 'license_expiry_date',
-                  'mobile', 'role', 'username', 'total')
+        fields = ('CreatedByID', 'DepartmentID', 'DriverLicense', 'EmailAddress', 'LicenseClass', 'LicenseExpiryDate',
+                  'Mobile', 'Role', 'Username', 'total', 'UserID', 'id'
+                  )
 
     def get_total(self, obj):
-        return UserInfo.objects.count()
+        return self.Meta.model.objects.count()
+
+    # def get_field_names(self, declared_fields, info):
+    #     fields = super().get_field_names(declared_fields, info)
+    #     # for field in fields:
+    #     #     fields
+    #     print(uppercase_field_name(fields))
+    #     return fields

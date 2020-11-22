@@ -15,6 +15,7 @@
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/proj/fleet" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/proj/api_base" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/proj/.venv" />
     </content>
     <orderEntry type="inheritedJdk" />

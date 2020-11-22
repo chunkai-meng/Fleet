@@ -1,14 +1,26 @@
+from collections import OrderedDict
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 
 
-class LargeResultsSetPagination(PageNumberPagination):
+class MyPageNumberPagination(PageNumberPagination):
+    def get_paginated_response(self, data):
+        return Response(OrderedDict([
+            ('Count', self.page.paginator.count),
+            ('Next', self.get_next_link()),
+            ('Previous', self.get_previous_link()),
+            ('Results', data)
+        ]))
+
+
+class LargeResultsSetPagination(MyPageNumberPagination):
     page_size = 64
     page_size_query_param = 'page_size'
     max_page_size = 1000
 
 
-class StandardResultsSetPagination(PageNumberPagination):
+class StandardResultsSetPagination(MyPageNumberPagination):
     page_size = 20
     page_size_query_param = 'page_size'
     max_page_size = 100  # ?page_size=100&page=3 自定义page size 不超过100
