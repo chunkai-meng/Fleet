@@ -15,12 +15,21 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.views.generic import TemplateView
+from rest_framework.documentation import include_docs_urls
 from django.conf.urls.static import static
 from django.conf import settings
 from .routers import router
+
+debut_paths = [
+    path('api/docs/', include_docs_urls(title='My API title')),
+]
 
 urlpatterns = [
     path('api/', include(router.urls), name='api'),
     path('api/admin/', admin.site.urls),
     path('api/accounts/', include('accounts.urls'), name='accounts'),
 ]
+
+if settings.DEBUG is True:
+    urlpatterns += debut_paths

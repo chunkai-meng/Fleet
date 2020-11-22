@@ -7,4 +7,5 @@ django-mssql-backend
 djangorestframework
 django-cors-headers
 django-simple-history
+coreapi
 packages/django-api-key-auth-0.3.tar.gz
