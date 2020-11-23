@@ -1,0 +1,3 @@
+STATUS_DELETED = -1
+
+MSG_NOT_FOUND = 'Not Found'

@@ -8,6 +8,7 @@
 from django.db import models
 from .base_models import BaseModel
 from .base_managers import CommonManager
+from . import enums
 
 
 class UserInfo(BaseModel):
@@ -99,17 +100,39 @@ class JobIDInfo(models.Model):
 
 
 class ServiceForm(BaseModel):
-    SN = models.CharField(db_column='SN', max_length=25, blank=True, null=True)
+    SN = models.CharField(db_column='SN', max_length=25, editable=False)
     PlateNumber = models.CharField(db_column='PlateNumber', max_length=30)
-    ServiceName = models.CharField(db_column='ServiceName', max_length=600, blank=True, null=True)
-    WorkshopID = models.CharField(db_column='WorkshopID', max_length=32, blank=True, null=True)
-    ServicePrice = models.FloatField(db_column='ServicePrice', blank=True, null=True)
-    StartDate = models.DateTimeField(db_column='StartDate', blank=True, null=True)
-    EndDate = models.DateTimeField(db_column='EndDate', blank=True, null=True)
+    ServiceName = models.CharField(db_column='ServiceName', max_length=600)
+    WorkshopID = models.CharField(db_column='WorkshopID', max_length=32)
+    ServicePrice = models.FloatField(db_column='ServicePrice')
+    StartDate = models.DateTimeField(db_column='StartDate')
+    EndDate = models.DateTimeField(db_column='EndDate')
 
     class Meta:
         managed = False
         db_table = 'ServiceForm'
+
+    def created_by(self):
+        created_by = UserInfo.objects.get_or_none(UserID=self.CreatedByID)
+        return created_by and created_by.username() or enums.MSG_NOT_FOUND
+
+    def workshop_name(self):
+        workshop = WorkshopInfo.objects.get_or_none(WorkshopID=self.WorkshopID)
+        return workshop and workshop.WorkshopName or enums.MSG_NOT_FOUND
+
+    # def save(self, force_insert=False, force_update=False, using=None,
+    #          update_fields=None):
+    #     # Hack to not save the maturity and months_open as they are computed columns
+    #     self._meta.local_fields = [f for f in self._meta.local_fields if f.name not in ('SN')]
+    #     super().save(force_insert, force_update, using, update_fields)
+
+    def _do_insert(self, manager, using, fields, update_pk, raw):
+        ret = super()._do_insert(
+            manager, using,
+            [f for f in fields if f.attname not in ['SN']],
+            update_pk, raw)
+        print(fields)
+        return ret
 
 
 class TransmissionTypeIDInfo(models.Model):

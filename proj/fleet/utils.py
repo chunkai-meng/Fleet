@@ -5,6 +5,5 @@ def underscore_to_uppercase(s):
 
 def uppercase_field_name(fields):
     new_fields = tuple(underscore_to_uppercase(item) for item in fields)
-    print(fields, '====', new_fields)
-    
+
     return new_fields

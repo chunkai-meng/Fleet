@@ -1,6 +1,6 @@
 from django.db import models
-from django.conf import settings
 from .base_managers import CommonManager
+from .enums import STATUS_DELETED
 
 
 class BaseModel(models.Model):
@@ -17,3 +17,7 @@ class BaseModel(models.Model):
     class Meta:
         abstract = True
         ordering = ('-id',)
+
+    def delete(self):
+        self.Status = STATUS_DELETED
+        super().save()

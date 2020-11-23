@@ -1,6 +1,5 @@
 from django.db import models
-
-STATUS_DELETED = -1
+from .enums import STATUS_DELETED
 
 
 class CommonQuerySet(models.QuerySet):
@@ -19,3 +18,9 @@ class CommonManager(models.Manager):
 
     def get_queryset(self):
         return self.with_deleted().exclude(Status=STATUS_DELETED)
+
+    def get_or_none(self, **kwargs):
+        try:
+            return self.get_queryset().get(**kwargs)
+        except self.model.DoesNotExist:
+            return None
