@@ -18,7 +18,7 @@
       <sourceFolder url="file://$MODULE_DIR$/proj/api_base" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/proj/.venv" />
     </content>
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="Remote Python 3.7.7 Docker Compose (fleet-test at [/Users/CK/Git/Fleet/docker-compose.yml])" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="PyDocumentationSettings">
