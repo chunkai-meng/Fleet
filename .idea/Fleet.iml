@@ -16,6 +16,7 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/proj/fleet" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/proj/api_base" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/proj/accounts" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/proj/.venv" />
     </content>
     <orderEntry type="jdk" jdkName="Remote Python 3.7.7 Docker Compose (fleet-test at [/Users/CK/Git/Fleet/docker-compose.yml])" jdkType="Python SDK" />

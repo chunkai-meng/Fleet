@@ -10,8 +10,11 @@ class ServiceFormSerializer(DynamicFieldsModelSerializer):
 
     class Meta:
         model = ServiceForm
-        fields = ('CreatedBy', 'EndDate', 'PlateNumber', 'SN', 'ServiceName', 'ServicePrice',
+        fields = ('id', 'CreatedBy', 'CreatedAt', 'EndDate', 'PlateNumber', 'SN', 'ServiceName', 'ServicePrice',
                   'StartDate', 'WorkshopName', 'total')
 
     def get_total(self, obj):
         return self.Meta.model.objects.count()
+
+    def PlateNumber_validator(self):
+        pass

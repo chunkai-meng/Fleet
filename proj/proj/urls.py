@@ -34,3 +34,6 @@ urlpatterns = [
 
 if settings.DEBUG is True:
     urlpatterns += debug_paths
+
+admin.site.site_url = '/api/docs/'
+admin.site.site_header = 'Fleet Booking System'

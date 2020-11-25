@@ -5,7 +5,7 @@
 #   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
-from django.db import models
+from django.db import models, connection
 from .base_models import BaseModel
 from .base_managers import CommonManager
 from . import enums
@@ -99,6 +99,14 @@ class JobIDInfo(models.Model):
         db_table = 'JobIDInfo'
 
 
+def my_custom_sql(query, params):
+    with connection.cursor() as cursor:
+        cursor.execute(query, params)
+        # row = cursor.fetchone()
+
+    # return row
+
+
 class ServiceForm(BaseModel):
     SN = models.CharField(db_column='SN', max_length=25, editable=False)
     PlateNumber = models.CharField(db_column='PlateNumber', max_length=30)
@@ -120,18 +128,38 @@ class ServiceForm(BaseModel):
         workshop = WorkshopInfo.objects.get_or_none(WorkshopID=self.WorkshopID)
         return workshop and workshop.WorkshopName or enums.MSG_NOT_FOUND
 
+    # def save(self, *args, **kwargs):
+    #     query_insert = '''INSERT INTO [dbo].[ServiceForm] (PlateNumber, ServiceName, WorkshopID, ServicePrice,
+    #                         StartDate, EndDate, CreatedAt)
+    #                         VALUES (%s, %s, %s, %s, %s, %s, %s);'''
+    #     query_update = '''UPDATE  [dbo].[ServiceForm] SET PlateNumber=%s, ServiceName=%s, WorkshopID=%s, ServicePrice=%s,
+    #                         StartDate=%s, EndDate=%s, CreatedAt=%s WHERE SN = %s;'''
+    #     params = [self.PlateNumber, self.ServiceName, self.WorkshopID, self.ServicePrice, self.StartDate,
+    #               self.EndDate, self.CreatedAt]
+    #     if self._state.adding:
+    #         my_custom_sql(query_insert, params)
+    #     else:
+    #         my_custom_sql(query_update, params.append(self.SN))
+
+    # TODO: Delete later
     # def save(self, force_insert=False, force_update=False, using=None,
     #          update_fields=None):
     #     # Hack to not save the maturity and months_open as they are computed columns
     #     self._meta.local_fields = [f for f in self._meta.local_fields if f.name not in ('SN')]
     #     super().save(force_insert, force_update, using, update_fields)
 
-    def _do_insert(self, manager, using, fields, update_pk, raw):
+    def _do_insert(self, manager, using, fields, returning_fields, raw):
         ret = super()._do_insert(
             manager, using,
             [f for f in fields if f.attname not in ['SN']],
-            update_pk, raw)
-        print(fields)
+            returning_fields, raw)
+        return ret
+
+    def _do_update(self, base_qs, using, pk_val, values, update_fields, forced_update):
+        ret = super()._do_update(
+            base_qs, using, pk_val,
+            [f for f in values if f[0].attname not in ['SN']], update_fields,
+            forced_update)
         return ret
 
 

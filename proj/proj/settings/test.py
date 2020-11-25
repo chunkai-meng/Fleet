@@ -42,22 +42,22 @@ DEBUG_TOOLBAR_CONFIG = {
     'SHOW_TOOLBAR_CALLBACK': lambda _request: DEBUG
 }
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': True,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        }
-    },
-    'loggers': {
-        'django.db.backends': {
-            'handlers': ['console'],
-            'propagate': True,
-            'level': 'DEBUG',
-        }
-    },
-}
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#         'console': {
+#             'class': 'logging.StreamHandler',
+#         }
+#     },
+#     'loggers': {
+#         'django.db.backends': {
+#             'handlers': ['console'],
+#             'propagate': True,
+#             'level': 'DEBUG',
+#         }
+#     },
+# }
 
 CAS_SERVER_URL = 'http://test-cas.waipareira.com/cas/'
 CAS_VERSION = '3'

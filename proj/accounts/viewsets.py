@@ -8,7 +8,8 @@ from .models import UserProfile
 from .serializers import UserProfileSerializer
 
 
-class UserProfileViewSet(viewsets.GenericViewSet):
+class UserProfileViewSet(mixins.ListModelMixin,
+                         viewsets.GenericViewSet):
     queryset = UserProfile.objects.all().order_by('username')
     serializer_class = UserProfileSerializer
     permission_classes = [IsAuthenticated]
@@ -20,4 +21,3 @@ class UserProfileViewSet(viewsets.GenericViewSet):
         """
         serializer = UserProfileSerializer(request.user)
         return Response(serializer.data)
-
