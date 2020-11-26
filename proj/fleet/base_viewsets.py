@@ -3,6 +3,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from fleet.models import UserInfo
+from .permissions import IsFleetUser
 
 
 class MyPageNumberPagination(PageNumberPagination):
@@ -32,7 +33,7 @@ class BaseViewSetMixin(object):
     Ensure the models are updated with the requesting user.
     """
     pagination_class = StandardResultsSetPagination
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsFleetUser,)
     serializer_action_classes = {}
 
     def get_serializer_class(self, *args, **kwargs):

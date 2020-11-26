@@ -121,7 +121,8 @@ REST_FRAMEWORK = {
         'proj.middlewares.CsrfExemptSessionAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
+        # 'rest_framework.permissions.IsAuthenticated',
+        'fleet.permissions.IsFleetUser',
     )
 }
 
