@@ -45,8 +45,7 @@ class BaseViewSetMixin(object):
     def perform_create(self, serializer):
         """Ensure we have the authorized user for ownership."""
         user = UserInfo.objects.get(SAMAccountName=self.request.user.sam_account_name)
-        user_id = user.UserID.hex
-        serializer.save(CreatedByID=user_id, UpdatedByID=user_id)
+        serializer.save(CreatedByID=user.UserID.hex)
 
     def perform_update(self, serializer):
         """Ensure we have the authorized user for ownership."""

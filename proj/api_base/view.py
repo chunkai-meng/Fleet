@@ -9,12 +9,16 @@ class GenericAPIView(generics.GenericAPIView):
 
     def finalize_response(self, request, response, *args, **kwargs):
         response = super().finalize_response(request, response, *args, **kwargs)
-        code, message, data = 1, None, getattr(response, 'data', None)
+        exception, code, message, data = getattr(response, 'exception', None), 1, None, getattr(response, 'data', None)
+        default_message = 'please see data result for error info'
 
         if isinstance(data, dict):
             message = data.get('detail', None) or data.get('error', None) or data.get('non_field_errors', None)
             if message:
                 code, data = 0, None
+            elif exception:
+                message, code = default_message, 0
+
         elif isinstance(data, (list, tuple)) and data and isinstance(data[0], ErrorDetail):
             # print('data is list or tuple and the first element is ErrorDetail')
             response.status_code = 200
@@ -31,6 +35,7 @@ class GenericAPIView(generics.GenericAPIView):
                 code, message, data = 0, x[0] + ": " + x[1][0], None
             except Exception:
                 code, message, data = 0, 'System Error', None
+
 
         # 系统异常
         elif isinstance(data, Exception):
