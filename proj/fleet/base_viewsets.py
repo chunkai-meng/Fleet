@@ -2,6 +2,7 @@ from collections import OrderedDict
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from fleet.models import UserInfo
 
 
 class MyPageNumberPagination(PageNumberPagination):
@@ -40,12 +41,13 @@ class BaseViewSetMixin(object):
         except(KeyError, AttributeError):
             return super().get_serializer_class()
 
-    # def perform_create(self, serializer):
-    #     """Ensure we have the authorized user for ownership."""
-    #     serializer.save(created_by=self.request.user,
-    #                     updated_by=self.request.user)
-    #
-    # def perform_update(self, serializer):
-    #     """Ensure we have the authorized user for ownership."""
-    #     serializer.save(updated_by=self.request.user)
-    #
+    def perform_create(self, serializer):
+        """Ensure we have the authorized user for ownership."""
+        user = UserInfo.objects.get(SAMAccountName=self.request.user.sam_account_name)
+        user_id = user.UserID.hex
+        serializer.save(CreatedByID=user_id, UpdatedByID=user_id)
+
+    def perform_update(self, serializer):
+        """Ensure we have the authorized user for ownership."""
+        user = UserInfo.objects.get(SAMAccountName=self.request.user.sam_account_name)
+        serializer.save(UpdatedByID=user.UserID.hex)

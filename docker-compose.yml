@@ -28,6 +28,7 @@ services:
     restart: always
     environment:
       DJANGO_SETTINGS_MODULE: proj.settings.test
+      PYTHONUNBUFFERED: 1
     # command: uwsgi /proj/uwsgi.ini
     command: python3 manage.py runserver 0.0.0.0:8888
     volumes:

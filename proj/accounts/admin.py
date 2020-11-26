@@ -18,7 +18,7 @@ class UserProfileAdmin(UserAdmin):
     )
     list_display_links = ['username']
     fieldsets = (
-        ('LDAP Fields', {'fields': ('cn_name', 'display_name')}),
+        ('LDAP Fields', {'fields': ('cn_name', 'display_name', 'sam_account_name')}),
         ('Django ID', {'fields': ('username', 'password')}),
         ('Personal info', {'fields': ('first_name', 'last_name', 'email')}),
         # ('Fleet info', {
@@ -33,7 +33,7 @@ class UserProfileAdmin(UserAdmin):
     )
     list_editable = ['is_staff']
     list_per_page = 30
-    # readonly_fields = ('user_id', 'created_by_id', 'created_at', 'updated_by_id', 'updated_at',)
+    readonly_fields = ('sam_account_name',)
     ordering = ['id']
 
 
