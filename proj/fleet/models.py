@@ -13,7 +13,7 @@ from . import enums
 
 
 class UserInfo(BaseModel):
-    SAMAccountName = models.CharField(db_column='SAMAccountName', max_length=50, unique=True)
+    SAMAccountName = models.CharField(db_column='SAMAccountName', max_length=50)
     UserID = models.UUIDField(db_column='UserID', max_length=50, default=uuid.uuid4, editable=False)
     FirstName = models.CharField(db_column='FirstName', max_length=50)
     LastName = models.CharField(db_column='LastName', max_length=50)

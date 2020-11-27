@@ -15,5 +15,4 @@ class IsAdminUser(permissions.BasePermission):
 
     def has_permission(self, request, view):
         current_user_info = UserInfo.objects.get_or_none(SAMAccountName=request.user.sam_account_name)
-        print("====", current_user_info.Role)
         return bool(current_user_info and current_user_info.Role == enums.ROLE_ADMIN)

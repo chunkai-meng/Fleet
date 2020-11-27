@@ -20,13 +20,17 @@ class UserInfoSerializer(DynamicFieldsModelSerializer):
         return self.Meta.model.objects.count()
 
     def validate(self, data):
-        if 'SAMAccountName' in data:
+        if self.context['view'].action == 'create' and 'SAMAccountName' in data:
             sam_account_name = data['SAMAccountName']
-            staff = UserProfile.objects.filter(sam_account_name=sam_account_name).first()
-            if staff is None:
-                raise serializers.ValidationError("SAMAccountName not exist in Staff")
-            else:
-                data['FirstName'] = staff.first_name
-                data['LastName'] = staff.last_name
-                data['EmailAddress'] = staff.email
+        else:
+            data.pop('SAMAccountName', None)
+            sam_account_name = self._args[0].SAMAccountName
+            
+        staff = UserProfile.objects.filter(sam_account_name=sam_account_name).first()
+        if staff is None:
+            raise serializers.ValidationError("SAMAccountName not exist in Staff")
+        else:
+            data['FirstName'] = staff.first_name
+            data['LastName'] = staff.last_name
+            data['EmailAddress'] = staff.email
         return data
