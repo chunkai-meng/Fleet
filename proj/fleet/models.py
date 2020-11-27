@@ -5,6 +5,7 @@
 #   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
+import uuid
 from django.db import models, connection
 from .base_models import BaseModel
 from .base_managers import CommonManager
@@ -12,17 +13,17 @@ from . import enums
 
 
 class UserInfo(BaseModel):
-    SAMAccountName = models.CharField(db_column='SAMAccountName', max_length=50, blank=True, null=True)
-    UserID = models.UUIDField(db_column='UserID', max_length=50)
+    SAMAccountName = models.CharField(db_column='SAMAccountName', max_length=50, unique=True)
+    UserID = models.UUIDField(db_column='UserID', max_length=50, default=uuid.uuid4, editable=False)
     FirstName = models.CharField(db_column='FirstName', max_length=50)
     LastName = models.CharField(db_column='LastName', max_length=50)
-    DriverLicense = models.CharField(db_column='DriverLicense', max_length=50, blank=True, null=True)
-    EmailAddress = models.CharField(db_column='EmailAddress', max_length=50, blank=True, null=True)
-    DepartmentID = models.CharField(db_column='DepartmentID', max_length=50, blank=True, null=True)
-    LicenseClass = models.CharField(db_column='LicenseClass', max_length=30, blank=True, null=True)
-    LicenseExpiryDate = models.DateField(db_column='LicenseExpiryDate', blank=True, null=True)
-    Role = models.SmallIntegerField(db_column='Role', blank=True, null=True)
-    Mobile = models.CharField(db_column='Mobile', max_length=50, blank=True, null=True)
+    DriverLicense = models.CharField(db_column='DriverLicense', max_length=50)
+    EmailAddress = models.CharField(db_column='EmailAddress', max_length=50)
+    DepartmentID = models.CharField(db_column='DepartmentID', max_length=50)
+    LicenseClass = models.CharField(db_column='LicenseClass', max_length=30)
+    LicenseExpiryDate = models.DateField(db_column='LicenseExpiryDate', null=True)
+    Role = models.SmallIntegerField(db_column='Role')
+    Mobile = models.CharField(db_column='Mobile', max_length=50)
 
     class Meta:
         managed = False
@@ -30,7 +31,7 @@ class UserInfo(BaseModel):
         db_table = 'UserInfo'
 
     def __str__(self):
-        return f'{self.FirstName}.{self.LastName}'
+        return f'{self.FirstName} {self.LastName}'
 
     def username(self):
         return self.__str__()
@@ -119,10 +120,6 @@ class ServiceForm(BaseModel):
     class Meta:
         managed = False
         db_table = 'ServiceForm'
-
-    def created_by(self):
-        created_by = UserInfo.objects.get_or_none(UserID=self.CreatedByID)
-        return created_by and created_by.username() or enums.MSG_NOT_FOUND
 
     def workshop_name(self):
         workshop = WorkshopInfo.objects.get_or_none(WorkshopID=self.WorkshopID)
@@ -229,7 +226,7 @@ class VehicleTypeIDInfo(models.Model):
 
 
 class WorkshopInfo(BaseModel):
-    WorkshopID = models.CharField(db_column='WorkshopID', max_length=50)
+    WorkshopID = models.UUIDField(db_column='WorkshopID', max_length=50, default=uuid.uuid4, editable=False)
     WorkshopName = models.CharField(db_column='WorkshopName', max_length=60)
     Address = models.CharField(db_column='Address', max_length=600, blank=True, null=True)
     ContactPerson = models.CharField(db_column='ContactPerson', max_length=30, blank=True, null=True)

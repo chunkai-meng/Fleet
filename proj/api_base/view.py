@@ -11,9 +11,12 @@ class GenericAPIView(generics.GenericAPIView):
         response = super().finalize_response(request, response, *args, **kwargs)
         exception, code, message, data = getattr(response, 'exception', None), 1, None, getattr(response, 'data', None)
         default_message = 'please see data result for error info'
+        print(data)
 
         if isinstance(data, dict):
             message = data.get('detail', None) or data.get('error', None) or data.get('non_field_errors', None)
+            if data.get('non_field_errors', None):
+                message = ''.join(message)
             if message:
                 code, data = 0, None
             elif exception:
@@ -28,7 +31,7 @@ class GenericAPIView(generics.GenericAPIView):
             # print('APIException')
             code, message, data = 0, data.message, None
         elif isinstance(data, ValidationError):
-            # print('ValidationError')
+            print('ValidationError')
             response.status_code = 200
             try:
                 x = data.detail.popitem()

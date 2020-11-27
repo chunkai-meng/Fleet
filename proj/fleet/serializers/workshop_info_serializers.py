@@ -4,10 +4,12 @@ from ..base_serializers import DynamicFieldsModelSerializer
 
 
 class WorkshopInfoSerializer(DynamicFieldsModelSerializer):
+    CreatedBy = serializers.ReadOnlyField(source='created_by')
+
     class Meta:
         model = WorkshopInfo
-        fields = ('id', 'SN', 'WorkshopID', 'WorkshopName', 'PlateNumber', 'ServiceName',
-                  'ServicePrice', 'StartDate', 'EndDate', 'CreatedBy', 'total')
+        fields = ('id', 'WorkshopID', 'WorkshopName', 'Address', 'ContactPerson',
+                  'ContactPhone', 'Email', 'Note', 'CreatedAt', 'CreatedBy', 'CreatedByID')
 
     # def validate_PlateNumber(self, value):
     #     if not VehicleInfo.objects.filter(PlateNumber=value).exists():

@@ -3,12 +3,14 @@ from ..serializers.user_info_serializers import UserInfoSerializer
 from ..models import UserInfo
 from ..base_viewsets import BaseViewSetMixin
 from api_base import viewsets
+from fleet.permissions import IsAdminUser, IsFleetUser
 
 
 class UserInfoViewSet(BaseViewSetMixin,
                       mixins.ListModelMixin,
                       mixins.RetrieveModelMixin,
-                      mixins.CreateModelMixin,
+                      mixins.CreateModelMixin, mixins.UpdateModelMixin,
+                      mixins.DestroyModelMixin,
                       viewsets.GenericViewSet, ):
     """
     retrieve:
@@ -24,3 +26,14 @@ class UserInfoViewSet(BaseViewSetMixin,
     serializer_class = UserInfoSerializer
     queryset = UserInfo.objects.all()
     lookup_field = 'UserID'
+    permission_classes = (IsAdminUser,)
+
+    # def get_permissions(self):
+    #     """
+    #     Instantiates and returns the list of permissions that this view requires.
+    #     """
+    #     if self.action in ['create', 'delete']:
+    #         permission_classes = [IsFleetUser]
+    #     else:
+    #         permission_classes = [IsFleetUser]
+    #     return [permission() for permission in permission_classes]
