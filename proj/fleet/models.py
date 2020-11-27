@@ -22,8 +22,9 @@ class UserInfo(BaseModel):
     DepartmentID = models.CharField(db_column='DepartmentID', max_length=50)
     LicenseClass = models.CharField(db_column='LicenseClass', max_length=30)
     LicenseExpiryDate = models.DateField(db_column='LicenseExpiryDate', null=True)
-    Role = models.SmallIntegerField(db_column='Role')
+    Role = models.SmallIntegerField(db_column='Role', choices=enums.USERINFO_ROLE_CHOICES, default=0)
     Mobile = models.CharField(db_column='Mobile', max_length=50)
+    OriginalID = models.IntegerField(db_column='OriginalID', blank=True, null=True)
 
     class Meta:
         managed = False
@@ -77,22 +78,18 @@ class Infringement(BaseModel):
     Date = models.DateTimeField(db_column='Date', blank=True, null=True)
     UserID = models.CharField(db_column='UserID', max_length=32, blank=True, null=True)
     PaidDate = models.DateTimeField(db_column='PaidDate', blank=True, null=True)
+    OriginalID = models.IntegerField(db_column='OriginalID', blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'Infringement'
 
 
-class JobIDInfo(models.Model):
+class JobIDInfo(BaseModel):
     JobAbbreviation = models.CharField(db_column='JobAbbreviation', max_length=30, blank=True, null=True)
     JobName = models.CharField(db_column='JobName', max_length=30, blank=True, null=True)
-    Status = models.SmallIntegerField(db_column='Status', blank=True, null=True)
-    CreatedByID = models.CharField(db_column='CreatedByID', max_length=32, blank=True, null=True)
-    CreatedAt = models.DateTimeField(db_column='CreatedAt', blank=True, null=True)
-    UpdatedByID = models.CharField(db_column='UpdatedByID', max_length=32, blank=True, null=True)
-    UpdatedAt = models.DateTimeField(db_column='UpdatedAt', blank=True, null=True)
+    Status = models.SmallIntegerField(db_column='Status', choices=enums.JOBIDINFO_STATUS_CHOICES, default=1)
     OriginalJobCodeID = models.IntegerField(db_column='OriginalJobCodeID', blank=True, null=True)
-    Cdate = models.DateTimeField(db_column='Cdate', blank=True, null=True)
     objects = CommonManager()
 
     class Meta:
@@ -116,6 +113,7 @@ class ServiceForm(BaseModel):
     ServicePrice = models.FloatField(db_column='ServicePrice')
     StartDate = models.DateTimeField(db_column='StartDate')
     EndDate = models.DateTimeField(db_column='EndDate')
+    OriginalID = models.IntegerField(db_column='OriginalID', blank=True, null=True)
 
     class Meta:
         managed = False
@@ -124,26 +122,6 @@ class ServiceForm(BaseModel):
     def workshop_name(self):
         workshop = WorkshopInfo.objects.get_or_none(WorkshopID=self.WorkshopID)
         return workshop and workshop.WorkshopName or enums.MSG_NOT_FOUND
-
-    # def save(self, *args, **kwargs):
-    #     query_insert = '''INSERT INTO [dbo].[ServiceForm] (PlateNumber, ServiceName, WorkshopID, ServicePrice,
-    #                         StartDate, EndDate, CreatedAt)
-    #                         VALUES (%s, %s, %s, %s, %s, %s, %s);'''
-    #     query_update = '''UPDATE  [dbo].[ServiceForm] SET PlateNumber=%s, ServiceName=%s, WorkshopID=%s, ServicePrice=%s,
-    #                         StartDate=%s, EndDate=%s, CreatedAt=%s WHERE SN = %s;'''
-    #     params = [self.PlateNumber, self.ServiceName, self.WorkshopID, self.ServicePrice, self.StartDate,
-    #               self.EndDate, self.CreatedAt]
-    #     if self._state.adding:
-    #         my_custom_sql(query_insert, params)
-    #     else:
-    #         my_custom_sql(query_update, params.append(self.SN))
-
-    # TODO: Delete later
-    # def save(self, force_insert=False, force_update=False, using=None,
-    #          update_fields=None):
-    #     # Hack to not save the maturity and months_open as they are computed columns
-    #     self._meta.local_fields = [f for f in self._meta.local_fields if f.name not in ('SN')]
-    #     super().save(force_insert, force_update, using, update_fields)
 
     def _do_insert(self, manager, using, fields, returning_fields, raw):
         ret = super()._do_insert(
@@ -188,6 +166,7 @@ class VehicleBooking(BaseModel):
     Clean = models.SmallIntegerField(db_column='Clean', blank=True, null=True)
     DamageInfo = models.CharField(db_column='DamageInfo', max_length=1200, blank=True, null=True)
     Image = models.CharField(db_column='Image', max_length=200, blank=True, null=True)
+    OriginalID = models.IntegerField(db_column='OriginalID', blank=True, null=True)
 
     class Meta:
         managed = False
@@ -210,6 +189,7 @@ class VehicleInfo(BaseModel):
     FuelTypeID = models.SmallIntegerField(db_column='FuelTypeID', blank=True, null=True)
     WoFExpDate = models.DateTimeField(db_column='WoFExpDate', blank=True, null=True)
     RegoExpDate = models.DateTimeField(db_column='RegoExpDate', blank=True, null=True)
+    OriginalID = models.IntegerField(db_column='OriginalID', blank=True, null=True)
 
     class Meta:
         managed = False
@@ -233,6 +213,7 @@ class WorkshopInfo(BaseModel):
     ContactPhone = models.CharField(db_column='ContactPhone', max_length=60, blank=True, null=True)
     Email = models.CharField(db_column='Email', max_length=60, blank=True, null=True)
     Note = models.CharField(db_column='Note', max_length=1200, blank=True, null=True)
+    OriginalID = models.IntegerField(db_column='OriginalID', blank=True, null=True)
 
     class Meta:
         managed = False

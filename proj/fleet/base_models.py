@@ -5,11 +5,10 @@ from .enums import STATUS_DELETED, MSG_NOT_FOUND
 
 class BaseModel(models.Model):
     """Abstract DB Base Model"""
-    CreatedByID = models.CharField(db_column='CreatedByID', max_length=50, blank=True, null=True)
-    CreatedAt = models.DateTimeField(db_column='CreatedAt', blank=True, null=True, auto_now_add=True, editable=False)
-    UpdatedByID = models.CharField(db_column='UpdatedByID', max_length=50, blank=True, null=True)
-    UpdatedAt = models.DateTimeField(db_column='UpdatedAt', blank=True, null=True, auto_now=True, editable=False)
-    OriginalID = models.IntegerField(db_column='OriginalID', blank=True, null=True)
+    CreatedByID = models.CharField(db_column='CreatedByID', max_length=50, blank=True, null=True, editable=False)
+    CreatedAt = models.DateTimeField(db_column='CreatedAt', auto_now_add=True, editable=False)
+    UpdatedByID = models.CharField(db_column='UpdatedByID', max_length=50, blank=True, null=True, editable=False)
+    UpdatedAt = models.DateTimeField(db_column='UpdatedAt', auto_now=True, editable=False)
     Status = models.SmallIntegerField(db_column='Status', blank=True, null=True)
     Cdate = models.DateTimeField(db_column='Cdate', blank=True, null=True)
     objects = CommonManager()

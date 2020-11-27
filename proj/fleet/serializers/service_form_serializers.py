@@ -4,17 +4,13 @@ from ..base_serializers import DynamicFieldsModelSerializer
 
 
 class ServiceFormSerializer(DynamicFieldsModelSerializer):
-    total = serializers.SerializerMethodField()
     CreatedBy = serializers.ReadOnlyField(source='created_by')
     WorkshopName = serializers.ReadOnlyField(source='workshop_name')
 
     class Meta:
         model = ServiceForm
         fields = ('id', 'SN', 'WorkshopID', 'WorkshopName', 'PlateNumber', 'ServiceName',
-                  'ServicePrice', 'StartDate', 'EndDate', 'CreatedBy', 'total')
-
-    def get_total(self, obj):
-        return self.Meta.model.objects.count()
+                  'ServicePrice', 'StartDate', 'EndDate', 'CreatedBy')
 
     def validate_PlateNumber(self, value):
         if not VehicleInfo.objects.filter(PlateNumber=value).exists():
