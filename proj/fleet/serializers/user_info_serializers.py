@@ -19,7 +19,7 @@ class UserInfoSerializer(DynamicFieldsModelSerializer):
             sam_account_name = data['SAMAccountName']
         else:
             data.pop('SAMAccountName', None)
-            sam_account_name = self._args[0].SAMAccountName
+            sam_account_name = self.instance.SAMAccountName
 
         staff = UserProfile.objects.filter(sam_account_name=sam_account_name).first()
         if staff is None:

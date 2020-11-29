@@ -53,10 +53,8 @@ class BaseViewSetMixin(object):
         serializer.save(UpdatedByID=user.UserID.hex)
 
     def get_serializer(self, *args, **kwargs):
-        print(self.action)
         try:
             fields = self.serializer_fields[self.action]
-            print(fields)
             return super().get_serializer(fields=fields, *args, **kwargs)
         except(KeyError, AttributeError):
             return super().get_serializer(*args, **kwargs)
