@@ -9,7 +9,7 @@ class BaseModel(models.Model):
     CreatedAt = models.DateTimeField(db_column='CreatedAt', auto_now_add=True, editable=False)
     UpdatedByID = models.CharField(db_column='UpdatedByID', max_length=50, blank=True, null=True, editable=False)
     UpdatedAt = models.DateTimeField(db_column='UpdatedAt', auto_now=True, editable=False)
-    Status = models.SmallIntegerField(db_column='Status', blank=True, null=True)
+    Status = models.SmallIntegerField(db_column='Status', default=1)
     Cdate = models.DateTimeField(db_column='Cdate', blank=True, null=True)
     objects = CommonManager()
 
@@ -25,5 +25,5 @@ class BaseModel(models.Model):
         from .models import UserInfo
         created_by = None
         if self.CreatedByID:
-            created_by = UserInfo.objects.get_or_none(UserID=self.CreatedByID)
+            created_by = UserInfo.objects.with_deleted().filter(UserID=self.CreatedByID).first()
         return created_by and created_by.username() or MSG_NOT_FOUND

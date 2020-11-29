@@ -26,9 +26,8 @@ class UserInfo(BaseModel):
     Mobile = models.CharField(db_column='Mobile', max_length=50)
     OriginalID = models.IntegerField(db_column='OriginalID', blank=True, null=True)
 
-    class Meta:
+    class Meta(BaseModel.Meta):
         managed = False
-        ordering = ['id']
         db_table = 'UserInfo'
 
     def __str__(self):
@@ -79,10 +78,15 @@ class Infringement(BaseModel):
     UserID = models.CharField(db_column='UserID', max_length=32, blank=True, null=True)
     PaidDate = models.DateTimeField(db_column='PaidDate', blank=True, null=True)
     OriginalID = models.IntegerField(db_column='OriginalID', blank=True, null=True)
+    Status = models.SmallIntegerField(db_column='Status', choices=enums.INFRINGEMENT_STATUS_CHOICES)
 
-    class Meta:
+    class Meta(BaseModel.Meta):
         managed = False
         db_table = 'Infringement'
+
+    def user_name(self):
+        user = UserInfo.objects.with_deleted().filter(UserID=self.UserID).first()
+        return user and user.username() or enums.MSG_NOT_FOUND
 
 
 class JobIDInfo(BaseModel):
@@ -92,7 +96,7 @@ class JobIDInfo(BaseModel):
     OriginalJobCodeID = models.IntegerField(db_column='OriginalJobCodeID', blank=True, null=True)
     objects = CommonManager()
 
-    class Meta:
+    class Meta(BaseModel.Meta):
         managed = False
         db_table = 'JobIDInfo'
 
@@ -115,12 +119,12 @@ class ServiceForm(BaseModel):
     EndDate = models.DateTimeField(db_column='EndDate')
     OriginalID = models.IntegerField(db_column='OriginalID', blank=True, null=True)
 
-    class Meta:
+    class Meta(BaseModel.Meta):
         managed = False
         db_table = 'ServiceForm'
 
     def workshop_name(self):
-        workshop = WorkshopInfo.objects.get_or_none(WorkshopID=self.WorkshopID)
+        workshop = WorkshopInfo.objects.with_deleted().filter(WorkshopID=self.WorkshopID).first()
         return workshop and workshop.WorkshopName or enums.MSG_NOT_FOUND
 
     def _do_insert(self, manager, using, fields, returning_fields, raw):
@@ -168,7 +172,7 @@ class VehicleBooking(BaseModel):
     Image = models.CharField(db_column='Image', max_length=200, blank=True, null=True)
     OriginalID = models.IntegerField(db_column='OriginalID', blank=True, null=True)
 
-    class Meta:
+    class Meta(BaseModel.Meta):
         managed = False
         db_table = 'VehicleBooking'
 
@@ -191,7 +195,7 @@ class VehicleInfo(BaseModel):
     RegoExpDate = models.DateTimeField(db_column='RegoExpDate', blank=True, null=True)
     OriginalID = models.IntegerField(db_column='OriginalID', blank=True, null=True)
 
-    class Meta:
+    class Meta(BaseModel.Meta):
         managed = False
         db_table = 'VehicleInfo'
 
@@ -215,6 +219,9 @@ class WorkshopInfo(BaseModel):
     Note = models.CharField(db_column='Note', max_length=1200, blank=True, null=True)
     OriginalID = models.IntegerField(db_column='OriginalID', blank=True, null=True)
 
-    class Meta:
+    class Meta(BaseModel.Meta):
         managed = False
         db_table = 'WorkshopInfo'
+
+    def __str__(self):
+        return self.WorkshopName

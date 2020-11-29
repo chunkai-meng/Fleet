@@ -51,3 +51,12 @@ class BaseViewSetMixin(object):
         """Ensure we have the authorized user for ownership."""
         user = UserInfo.objects.get(SAMAccountName=self.request.user.sam_account_name)
         serializer.save(UpdatedByID=user.UserID.hex)
+
+    def get_serializer(self, *args, **kwargs):
+        print(self.action)
+        try:
+            fields = self.serializer_fields[self.action]
+            print(fields)
+            return super().get_serializer(fields=fields, *args, **kwargs)
+        except(KeyError, AttributeError):
+            return super().get_serializer(*args, **kwargs)
