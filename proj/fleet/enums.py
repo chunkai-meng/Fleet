@@ -1,4 +1,5 @@
 STATUS_DELETED = -1
+COMMON_EXPIRED_DAYS = 30
 
 MSG_NOT_FOUND = 'Not Found'
 
@@ -25,3 +26,9 @@ INFRINGEMENT_STATUS_CHOICES = (
 )
 
 WORKSHOP_STATUS_CHOICES = JOBIDINFO_STATUS_CHOICES
+
+VEHICLE_STATUS_CHOICES = (
+    (0, 'Booked'),
+    (1, 'Available'),
+    (-1, 'Deleted')
+)

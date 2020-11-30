@@ -178,7 +178,8 @@ class VehicleBooking(BaseModel):
 
 
 class VehicleInfo(BaseModel):
-    VehicleID = models.CharField(db_column='VehicleID', max_length=50)
+    # VehicleID = models.CharField(db_column='VehicleID', max_length=50)
+    VehicleID = models.UUIDField(db_column='VehicleID', max_length=50, default=uuid.uuid4, editable=False)
     PlateNumber = models.CharField(db_column='PlateNumber', max_length=30)
     LastKnownOdo = models.FloatField(db_column='LastKnownOdo', blank=True, null=True)
     LastOdo = models.FloatField(db_column='LastOdo', blank=True, null=True)
@@ -194,6 +195,7 @@ class VehicleInfo(BaseModel):
     WoFExpDate = models.DateTimeField(db_column='WoFExpDate', blank=True, null=True)
     RegoExpDate = models.DateTimeField(db_column='RegoExpDate', blank=True, null=True)
     OriginalID = models.IntegerField(db_column='OriginalID', blank=True, null=True)
+    Status = models.SmallIntegerField(db_column='Status', choices=enums.VEHICLE_STATUS_CHOICES, default=1)
 
     class Meta(BaseModel.Meta):
         managed = False
