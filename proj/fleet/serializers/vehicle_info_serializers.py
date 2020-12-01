@@ -44,7 +44,6 @@ class VehicleInfoSerializer(DynamicFieldsModelSerializer):
     #     return obj.LastOdo
 
     def get_TransmissionType(self, obj):
-        # NOTE: Sandy的数据库设计不合理，不应该使用关联表，应该使用静态变量或者常量实现。
         if obj.TransmissionTypeID:
             try:
                 transmission_type = TransmissionTypeIDInfo.objects.get(id=obj.TransmissionTypeID)

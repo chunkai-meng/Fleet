@@ -6,6 +6,7 @@ from fleet.viewsets.workshop_info_viewsets import WorkshopInfoViewSet
 from fleet.viewsets.job_id_viewsets import JobIDInfoViewSet
 from fleet.viewsets.infringement_viewsets import InfringementViewSets
 from fleet.viewsets.vehicle_info_viewsets import VehicleInfoViewSet
+from fleet.viewsets.vehicle_booking_viewserts import VehicleBookingViewSet
 
 router = routers.SimpleRouter()
 router.register(r'staffs', UserProfileViewSet, basename='staffs')
@@ -15,3 +16,4 @@ router.register(r'workshop-info', WorkshopInfoViewSet, basename='workshop_info')
 router.register(r'job-code', JobIDInfoViewSet, basename='job_code')
 router.register(r'infringement', InfringementViewSets, basename='infringement')
 router.register(r'vehicle-info', VehicleInfoViewSet, basename='vehicle_info')
+router.register(r'vehicle-booking', VehicleBookingViewSet, basename='vehicle_booking')
