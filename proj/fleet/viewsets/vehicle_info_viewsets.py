@@ -30,8 +30,30 @@ class VehicleInfoViewSet(BaseViewSetMixin,
 
     不提供 Odo字段: 是 LastKnownOdo 和 LastOdo 字段的拼接，没有必要也不应该，在此分别提供两个原是字段
 
+    ### Search
+
+    <span class="label label-primary">GET</span> `/api/vehicle-info?v_type=1,2&t_type=1,3`
+    <table class="parameters table table-bordered table-striped">
+        <thead>
+            <tr><th>Parameter</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+            <tr><td class="parameter-name"><code>v_type</code></td><td>VehicleTypeIDs</td></tr>
+            <tr><td class="parameter-name"><code>t_type</code></td><td>TransmissionTypeIDs</td></tr>
+        </tbody>
+    </table>
+
     create:
     All Fields are **required** (所有字段必填)
+
+    wof_due_list:
+    list vehicles that WofExpired within 30 days
+
+    rego_due_list:
+    list vehicles that RegoExpired within 30 days
+
+    due_list:
+    list all vehicles that with due WoF/Rego
     """
 
     serializer_class = VehicleInfoSerializer
@@ -45,6 +67,19 @@ class VehicleInfoViewSet(BaseViewSetMixin,
         'retrieve': default_fields,
     }
     lookup_field = 'VehicleID'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        v_type = self.request.query_params.get('v_type', None)
+        t_type = self.request.query_params.get('t_type', None)
+        if v_type:
+            type_ids = v_type.replace(' ', '').split(',')
+            queryset = queryset.filter(VehicleTypeID__in=type_ids)
+        if t_type:
+            type_ids = t_type.replace(' ', '').split(',')
+            print(type_ids)
+            queryset = queryset.filter(TransmissionTypeID__in=type_ids)
+        return queryset
 
     @action(detail=False, methods=['get'], url_path='wof-due')
     def wof_due_list(self, request):

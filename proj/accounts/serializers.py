@@ -10,9 +10,10 @@ class GroupSerializer(serializers.ModelSerializer):
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
-    groups = GroupSerializer(many=True)
+    # groups = GroupSerializer(many=True)
 
     class Meta:
         model = UserProfile
-        fields = ('id', 'username', 'display_name', 'groups')
-
+        # fields = ('id', 'username', 'display_name', 'groups')
+        fields = ('id', 'sam_account_name', 'first_name', 'last_name', 'date_joined',
+                  'email', 'display_name', 'phone_number', 'employee_id', 'cost_center')

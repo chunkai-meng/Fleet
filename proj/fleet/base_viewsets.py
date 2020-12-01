@@ -58,3 +58,8 @@ class BaseViewSetMixin(object):
             return super().get_serializer(fields=fields, *args, **kwargs)
         except(KeyError, AttributeError):
             return super().get_serializer(*args, **kwargs)
+
+    def get_current_user(self, request):
+        sam_account_name = request.user.sam_account_name
+        current_user = UserInfo.objects.get_or_none(SAMAccountName=sam_account_name)
+        return current_user
