@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django_cas_ng',
     'debug_toolbar',
     'api_key',
+    'email_notification',
     'accounts.apps.AccountsConfig',
     'fleet.apps.FleetConfig',
 ]

@@ -67,3 +67,18 @@ CAS_REDIRECT_URL = '/api/admin/'
 LOGOUT_REDIRECT_URL = '/api/admin/'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_COOKIE_AGE = 14400  # (4h)
+
+# email_notification Settings
+EMAIL_CARRIER = {
+    'name': 'celery',
+    'CELERY_API_KEY': '$s0xzks2iy*wo*3y',
+    'CELERY_EMAIL_API_ENDPOINT': 'http://test-queue.waicloud.co/email/',
+}
+DEFAULT_FROM_EMAIL = 'no-reply@waiwhanau.com'
+
+TEMPLATE_CHOICES = [
+    # notify
+    ('Vehicle Booked', 'Vehicle Booked'),
+    ('Vehicle Returned', 'Vehicle Returned'),
+]
+#

@@ -12,3 +12,4 @@ coreapi
 Pygments
 Markdown
 packages/django-api-key-auth-0.3.tar.gz
+packages/email-notification-1.0.tar.gz
