@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from simple_history.models import HistoricalRecords
 from django.utils.crypto import get_random_string
-import uuid
+from fleet.models import UserInfo
 
 
 def get_non_ad_sid():
@@ -27,6 +27,7 @@ class UserProfile(AbstractUser):
     cost_center = models.CharField(max_length=256, blank=True)
     object_sid = models.CharField(max_length=256, default=get_non_ad_sid, unique=True)
     sam_account_name = models.CharField(max_length=256, default=get_random_string, unique=True)
+    user_info = models.ForeignKey(UserInfo, on_delete=models.SET_NULL, null=True, blank=True, )
 
     # history = HistoricalRecords(app="audit", custom_model_name=lambda x: f'Account{x}')
 

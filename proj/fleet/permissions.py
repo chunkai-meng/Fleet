@@ -13,7 +13,7 @@ class IsFleetUser(permissions.BasePermission):
 
 
 class IsAdminUser(permissions.BasePermission):
-    message = "You're not a Fleet Admin, please developer."
+    message = "You're not a Fleet Admin, please contact developer."
 
     def has_permission(self, request, view):
         if request.user.is_authenticated:
