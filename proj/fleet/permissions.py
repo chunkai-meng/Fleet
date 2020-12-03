@@ -7,7 +7,6 @@ class IsFleetUser(permissions.BasePermission):
     message = "You're not a Fleet user, please create new User in UserInfo."
 
     def has_permission(self, request, view):
-        print(request.user.is_authenticated)
         return bool(request.user.is_authenticated and UserInfo.objects.filter(
             SAMAccountName=request.user.sam_account_name).exists())
 

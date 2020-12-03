@@ -1,6 +1,6 @@
 # Fleet Django Backend
 
-{{TOC}}
+[toc]
 
 ## infringement
 
