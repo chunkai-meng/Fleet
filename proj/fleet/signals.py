@@ -23,7 +23,6 @@ def send_new_request_email(instance):
         'body_value4': instance.Status
     }
     email_notification = EmailNotification(**email_dict)
-    print(email_notification)
     email_notification.save()
 
 

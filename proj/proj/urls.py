@@ -22,7 +22,7 @@ from django.conf import settings
 from .routers import router
 
 debug_paths = [
-    path('api/docs/', include_docs_urls(title='My API title')),
+    path('api/docs/', include_docs_urls(title='Fleet Django Backend', public=False)),
     path('__debug__/', include(debug_toolbar.urls)),
 ]
 

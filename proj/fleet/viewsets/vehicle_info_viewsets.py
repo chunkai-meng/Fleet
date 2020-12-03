@@ -77,7 +77,6 @@ class VehicleInfoViewSet(BaseViewSetMixin,
             queryset = queryset.filter(VehicleTypeID__in=type_ids)
         if t_type:
             type_ids = t_type.replace(' ', '').split(',')
-            print(type_ids)
             queryset = queryset.filter(TransmissionTypeID__in=type_ids)
         return queryset
 

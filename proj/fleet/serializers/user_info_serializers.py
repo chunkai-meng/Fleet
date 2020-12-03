@@ -33,7 +33,6 @@ class UserInfoSerializer(DynamicFieldsModelSerializer):
     def save(self, **kwargs):
         instance = super().save(**kwargs)
         staff = UserProfile.objects.filter(sam_account_name=instance.SAMAccountName).first()
-        print(instance.id)
         staff.user_info = instance
         staff.save()
         return instance
