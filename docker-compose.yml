@@ -14,8 +14,8 @@ services:
     command: uwsgi /proj/uwsgi.ini
     volumes:
       - ./proj:/proj
-    #    ports:
-    #      - "8300:8888"
+    ports:
+      - "9000:8888"
     networks:
       - fleet
 
