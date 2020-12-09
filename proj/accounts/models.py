@@ -32,8 +32,8 @@ class UserProfile(AbstractUser):
     # history = HistoricalRecords(app="audit", custom_model_name=lambda x: f'Account{x}')
 
     class Meta:
-        verbose_name = 'User Profile'
-        verbose_name_plural = 'User Profiles'
+        verbose_name = 'Staff'
+        verbose_name_plural = 'Staffs'
 
     def __str__(self):
         return self.username
