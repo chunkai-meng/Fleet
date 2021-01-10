@@ -33,10 +33,16 @@ class VehicleBookingViewSet(BaseViewSetMixin,
     @action(detail=True, methods=['post'], url_path='return')
     def return_booking(self, request, SN):
         obj = self.get_object()
-        if obj.StartedMileage and obj.StartedMileage <= request.data.get('ReturnedMileage', 0):
+        if obj.Status != 1:
+            msg = 'Only Approved(Status=1) booking can be returned'
+
+        if obj.StartedMileage and float(obj.StartedMileage) <= float(request.data.get('ReturnedMileage', 0)):
             obj.__dict__.update(request.data)
+            obj.Status = 5
             obj.save()
             serializer = self.get_serializer(obj, many=False)
+            return Response(serializer.data)
         else:
-            raise serializers.ValidationError('ReturnedMileage cannot be smaller than StartedMileage')
-        return Response(serializer.data)
+            msg = 'ReturnedMileage cannot be smaller than StartedMileage'
+
+        raise serializers.ValidationError(msg)
