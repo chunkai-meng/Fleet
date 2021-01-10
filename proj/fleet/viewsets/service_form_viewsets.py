@@ -26,17 +26,17 @@ class ServiceFormViewSet(BaseViewSetMixin,
     queryset = ServiceForm.objects.all()
     lookup_field = 'SN'
 
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-
-        new_obj_id = serializer.data['id']
-        new_obj = self.queryset.get(id=new_obj_id)
-
-        serializer = self.get_serializer(new_obj, many=False)
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+    # def create(self, request, *args, **kwargs):
+    #     serializer = self.get_serializer(data=request.data)
+    #     serializer.is_valid(raise_exception=True)
+    #     self.perform_create(serializer)
+    #
+    #     new_obj_id = serializer.data['id']
+    #     new_obj = self.queryset.get(id=new_obj_id)
+    #
+    #     serializer = self.get_serializer(new_obj, many=False)
+    #     headers = self.get_success_headers(serializer.data)
+    #     return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
     # def update(self, request, *args, **kwargs):
     #     partial = kwargs.pop('partial', False)

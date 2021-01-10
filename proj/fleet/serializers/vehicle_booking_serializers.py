@@ -7,4 +7,3 @@ from .. import enums
 class VehicleBookingSerializer(DynamicFieldsModelSerializer):
     class Meta(DynamicFieldsModelSerializer.Meta):
         model = VehicleBooking
-       

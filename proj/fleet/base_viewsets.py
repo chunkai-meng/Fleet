@@ -1,4 +1,6 @@
 from collections import OrderedDict
+
+from rest_framework import status
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -63,3 +65,19 @@ class BaseViewSetMixin(object):
         sam_account_name = request.user.sam_account_name
         current_user = UserInfo.objects.get_or_none(SAMAccountName=sam_account_name)
         return current_user
+
+    def create(self, request, *args, **kwargs):
+        if self.lookup_field == 'SN':
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            self.perform_create(serializer)
+
+            new_obj_id = serializer.data['id']
+            new_obj = self.queryset.get(id=new_obj_id)
+
+            serializer = self.get_serializer(new_obj, many=False)
+            headers = self.get_success_headers(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+        else:
+            super().create(request, *args, **kwargs)

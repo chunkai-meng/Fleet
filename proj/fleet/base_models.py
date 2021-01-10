@@ -27,3 +27,13 @@ class BaseModel(models.Model):
         if self.CreatedByID:
             created_by = UserInfo.objects.with_deleted().filter(UserID=self.CreatedByID).first()
         return created_by and created_by.username() or MSG_NOT_FOUND
+
+    def _do_insert(self, manager, using, fields, returning_fields, raw):
+        fields = [f for f in fields if f.attname not in ['SN']]
+        ret = super()._do_insert(manager, using, fields, returning_fields, raw)
+        return ret
+
+    def _do_update(self, base_qs, using, pk_val, values, update_fields, forced_update):
+        values = [f for f in values if f[0].attname not in ['SN']]
+        ret = super()._do_update(base_qs, using, pk_val, values, update_fields, forced_update)
+        return ret
