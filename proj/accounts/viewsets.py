@@ -8,7 +8,7 @@ from .models import UserProfile
 from .serializers import UserProfileSerializer
 
 
-class UserProfileViewSet(mixins.ListModelMixin,
+class UserProfileViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin,
                          viewsets.GenericViewSet):
     queryset = UserProfile.objects.all().order_by('username')
     serializer_class = UserProfileSerializer
