@@ -170,6 +170,7 @@ class VehicleBooking(BaseModel):
     Clean = models.SmallIntegerField(db_column='Clean', blank=True, null=True)
     DamageInfo = models.CharField(db_column='DamageInfo', max_length=1200, blank=True, null=True)
     Image = models.CharField(db_column='Image', max_length=200, blank=True, null=True)
+    Status = models.SmallIntegerField(db_column='Status', default=0)
     OriginalID = models.IntegerField(db_column='OriginalID', blank=True, null=True)
 
     class Meta(BaseModel.Meta):
