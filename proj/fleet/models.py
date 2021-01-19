@@ -127,20 +127,6 @@ class ServiceForm(BaseModel):
         workshop = WorkshopInfo.objects.with_deleted().filter(WorkshopID=self.WorkshopID).first()
         return workshop and workshop.WorkshopName or enums.MSG_NOT_FOUND
 
-    # def _do_insert(self, manager, using, fields, returning_fields, raw):
-    #     ret = super()._do_insert(
-    #         manager, using,
-    #         [f for f in fields if f.attname not in ['SN']],
-    #         returning_fields, raw)
-    #     return ret
-    #
-    # def _do_update(self, base_qs, using, pk_val, values, update_fields, forced_update):
-    #     ret = super()._do_update(
-    #         base_qs, using, pk_val,
-    #         [f for f in values if f[0].attname not in ['SN']], update_fields,
-    #         forced_update)
-    #     return ret
-
 
 class TransmissionTypeIDInfo(models.Model):
     TransmissionType = models.CharField(db_column='TransmissionType', max_length=30, blank=True, null=True)
