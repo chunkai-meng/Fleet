@@ -11,7 +11,8 @@ class VehicleInfoSerializer(DynamicFieldsModelSerializer):
     FuelType = serializers.SerializerMethodField()
     # Odo = serializers.SerializerMethodField()
     TransmissionType = serializers.SerializerMethodField()
-    WoFRegoDue = serializers.SerializerMethodField()
+    WoFDue = serializers.SerializerMethodField()
+    RegoDue = serializers.SerializerMethodField()
 
     # VehicleModel = serializers.SerializerMethodField()
 
@@ -58,7 +59,12 @@ class VehicleInfoSerializer(DynamicFieldsModelSerializer):
     #     # TODO： 名字不能用VehicleInfo 重名了，需要Sandy改一下
     #     return f'{obj.Manufacturer} {obj.Model}'
 
-    def get_WoFRegoDue(self, obj):
+    def get_RegoDue(self, obj):
         now = datetime.now()
         out_date = now + timedelta(days=enums.COMMON_EXPIRED_DAYS)
-        return obj.WoFExpDate >= out_date or obj.RegoExpDate >= out_date
+        return obj.RegoExpDate >= out_date
+
+    def get_WoFDue(self, obj):
+        now = datetime.now()
+        out_date = now + timedelta(days=enums.COMMON_EXPIRED_DAYS)
+        return obj.WoFExpDate >= out_date

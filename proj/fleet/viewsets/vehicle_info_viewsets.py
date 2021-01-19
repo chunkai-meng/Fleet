@@ -61,7 +61,9 @@ class VehicleInfoViewSet(BaseViewSetMixin,
     default_fields = ('id',
                       'Status', 'LastKnownOdo', 'LastOdo', 'Manufacturer', 'Model',
                       'AvailableKm', 'CreatedBy', 'DepartmentName', 'FuelType', 'MFGDate',
-                      'Odo', 'PlateNumber', 'TransmissionType', 'VehicleID', 'VehicleModel', 'WoFRegoDue')
+                      'Odo', 'PlateNumber', 'TransmissionType', 'VehicleID', 'VehicleTypeID', 'VehicleModel',
+                      'WoFExpDate',
+                      'RegoExpDate', 'WoFDue', 'RegoDue', 'Color')
     serializer_fields = {
         'list': default_fields,
         'retrieve': default_fields,
