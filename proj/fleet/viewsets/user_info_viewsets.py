@@ -29,13 +29,3 @@ class UserInfoViewSet(BaseViewSetMixin,
     queryset = UserInfo.objects.all()
     lookup_field = 'UserID'
     permission_classes = (IsAuthenticated, IsAdminUser)
-
-    # def get_permissions(self):
-    #     """
-    #     Instantiates and returns the list of permissions that this view requires.
-    #     """
-    #     if self.action in ['create', 'delete']:
-    #         permission_classes = [IsFleetUser]
-    #     else:
-    #         permission_classes = [IsFleetUser]
-    #     return [permission() for permission in permission_classes]

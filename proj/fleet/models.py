@@ -167,7 +167,7 @@ class VehicleBooking(BaseModel):
 class VehicleInfo(BaseModel):
     # VehicleID = models.CharField(db_column='VehicleID', max_length=50)
     VehicleID = models.UUIDField(db_column='VehicleID', max_length=50, default=uuid.uuid4, editable=False)
-    PlateNumber = models.CharField(db_column='PlateNumber', max_length=30)
+    PlateNumber = models.CharField(db_column='PlateNumber', max_length=30, unique=True)
     LastKnownOdo = models.FloatField(db_column='LastKnownOdo', blank=True, null=True)
     LastOdo = models.FloatField(db_column='LastOdo', blank=True, null=True)
     MFGDate = models.IntegerField(db_column='MFGDate', blank=True, null=True)

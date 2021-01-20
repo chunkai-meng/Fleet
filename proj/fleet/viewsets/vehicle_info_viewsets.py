@@ -1,4 +1,4 @@
-from rest_framework import mixins
+from rest_framework import mixins, exceptions
 from rest_framework.decorators import action
 from datetime import datetime, timedelta
 from api_base import viewsets
@@ -69,6 +69,12 @@ class VehicleInfoViewSet(BaseViewSetMixin,
         'retrieve': default_fields,
     }
     lookup_field = 'VehicleID'
+
+    def perform_destroy(self, instance):
+        if int(instance.Status) == enums.VEHICLE_STATUS_AVAILABLE:
+            instance.delete()
+        else:
+            raise exceptions.ValidationError('Deletion failed, this vehicle is not available (booked/deleted)')
 
     def get_queryset(self):
         queryset = super().get_queryset()
