@@ -80,4 +80,4 @@ class BaseViewSetMixin(object):
             return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
         else:
-            super().create(request, *args, **kwargs)
+            return super().create(request, *args, **kwargs)
