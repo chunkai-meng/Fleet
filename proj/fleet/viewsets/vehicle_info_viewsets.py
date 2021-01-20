@@ -93,15 +93,31 @@ class VehicleInfoViewSet(BaseViewSetMixin,
             queryset = queryset.filter(TransmissionTypeID__in=type_ids)
 
         if user_id:
-            user = UserInfo.objects.get(UserID=user_id)
+            try:
+                user = UserInfo.objects.get(UserID=user_id)
+            except UserInfo.DoesNotExist:
+                raise exceptions.NotFound('user_id not found')
             user_department_id_list = user.DepartmentID.replace(' ', '').split(',')
-            all_vehicles = queryset.all()
+            all_vehicles = queryset.all().values('id', 'DepartmentID')
             not_in_pool_vehicle_ids = []
             for v in all_vehicles:
-                vehicle_department_id_list = v.DepartmentID.replace(' ', '').split(',')
+                vehicle_department_id_list = v['DepartmentID'].replace(' ', '').split(',')
                 if not has_common_member(user_department_id_list, vehicle_department_id_list):
-                    not_in_pool_vehicle_ids.append(v.id)
+                    not_in_pool_vehicle_ids.append(v['id'])
             queryset = queryset.exclude(id__in=not_in_pool_vehicle_ids)
+
+        # if user_id:
+        #     user = UserInfo.objects.get(UserID=user_id)
+        #     user_department_id_list = user.DepartmentID.replace(' ', '').split(',')
+        #     all_vehicles = queryset.all()
+        #     pool = queryset.none()
+        #     for i in user_department_id_list:
+        #         id_startswith = Q(DepartmentID__startswith=i + ',')
+        #         id_in_middle = Q(DepartmentID__contains=',' + i + ',')
+        #         id_endswith = i + ','
+        #         pool = pool | queryset.filter(DepartmentID__contains=id_in_middle)
+        #     queryset = pool
+
         return queryset
 
     @action(detail=False, methods=['get'], url_path='wof-due')
