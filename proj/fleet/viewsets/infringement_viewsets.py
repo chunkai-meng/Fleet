@@ -17,3 +17,4 @@ class InfringementViewSets(BaseViewSetMixin,
         'retrieve': ('id', 'Amount', 'CreatedAt', 'CreatedBy', 'CreatedByID', 'Date', 'InfringementNumber', 'PaidDate',
                      'PlateNumber', 'Status', 'UserName')
     }
+    lookup_field = 'InfringementNumber'
