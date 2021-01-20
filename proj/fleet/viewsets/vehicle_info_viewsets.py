@@ -4,9 +4,10 @@ from datetime import datetime, timedelta
 from api_base import viewsets
 from ..base_viewsets import BaseViewSetMixin
 from ..serializers.vehicle_info_serializers import VehicleInfoSerializer
-from ..models import VehicleInfo
+from ..models import VehicleInfo, UserInfo
 from .. import enums
 from django.db.models import Q
+from ..utils import has_common_member
 
 now = datetime.now()
 date_out = now + timedelta(days=enums.COMMON_EXPIRED_DAYS)
@@ -40,6 +41,7 @@ class VehicleInfoViewSet(BaseViewSetMixin,
         <tbody>
             <tr><td class="parameter-name"><code>v_type</code></td><td>VehicleTypeIDs</td></tr>
             <tr><td class="parameter-name"><code>t_type</code></td><td>TransmissionTypeIDs</td></tr>
+            <tr><td class="parameter-name"><code>use_id</code></td><td>Retrieve vehicles from relevant pool</td></tr>
         </tbody>
     </table>
 
@@ -60,7 +62,8 @@ class VehicleInfoViewSet(BaseViewSetMixin,
     queryset = VehicleInfo.objects.all()
     default_fields = ('id',
                       'Status', 'LastKnownOdo', 'LastOdo', 'Manufacturer', 'Model',
-                      'AvailableKm', 'CreatedBy', 'DepartmentName', 'FuelType', 'MFGDate',
+                      'AvailableKm', 'CreatedBy', 'DepartmentName', 'DepartmentID',
+                      'FuelType', 'MFGDate',
                       'Odo', 'PlateNumber', 'TransmissionType', 'VehicleID', 'VehicleTypeID', 'VehicleModel',
                       'WoFExpDate',
                       'RegoExpDate', 'WoFDue', 'RegoDue', 'Color')
@@ -80,12 +83,25 @@ class VehicleInfoViewSet(BaseViewSetMixin,
         queryset = super().get_queryset()
         v_type = self.request.query_params.get('v_type', None)
         t_type = self.request.query_params.get('t_type', None)
+        user_id = self.request.query_params.get('user_id', None)
+
         if v_type:
             type_ids = v_type.replace(' ', '').split(',')
             queryset = queryset.filter(VehicleTypeID__in=type_ids)
         if t_type:
             type_ids = t_type.replace(' ', '').split(',')
             queryset = queryset.filter(TransmissionTypeID__in=type_ids)
+
+        if user_id:
+            user = UserInfo.objects.get(UserID=user_id)
+            user_department_id_list = user.DepartmentID.replace(' ', '').split(',')
+            all_vehicles = queryset.all()
+            not_in_pool_vehicle_ids = []
+            for v in all_vehicles:
+                vehicle_department_id_list = v.DepartmentID.replace(' ', '').split(',')
+                if not has_common_member(user_department_id_list, vehicle_department_id_list):
+                    not_in_pool_vehicle_ids.append(v.id)
+            queryset = queryset.exclude(id__in=not_in_pool_vehicle_ids)
         return queryset
 
     @action(detail=False, methods=['get'], url_path='wof-due')
