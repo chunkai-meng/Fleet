@@ -71,7 +71,7 @@ class FuelTypeIDInfo(models.Model):
 
 
 class Infringement(BaseModel):
-    InfringementNumber = models.CharField(db_column='InfringementNumber', max_length=30)
+    InfringementNumber = models.CharField(db_column='InfringementNumber', max_length=30, unique=True)
     PlateNumber = models.CharField(db_column='PlateNumber', max_length=30)
     Amount = models.FloatField(db_column='Amount', blank=True, null=True)
     Date = models.DateTimeField(db_column='Date', blank=True, null=True)
