@@ -80,7 +80,7 @@ class VehicleInfoViewSet(BaseViewSetMixin,
             raise exceptions.ValidationError('Deletion failed, this vehicle is not available (booked/deleted)')
 
     def get_queryset(self):
-        queryset = super().get_queryset()
+        queryset = super().get_queryset().select_related('FuelTypeID', 'TransmissionTypeID')
         v_type = self.request.query_params.get('v_type', None)
         t_type = self.request.query_params.get('t_type', None)
         user_id = self.request.query_params.get('user_id', None)

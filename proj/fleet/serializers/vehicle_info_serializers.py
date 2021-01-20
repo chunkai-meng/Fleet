@@ -8,9 +8,11 @@ from .. import enums
 class VehicleInfoSerializer(DynamicFieldsModelSerializer):
     CreatedBy = serializers.ReadOnlyField(source='created_by')
     DepartmentName = serializers.SerializerMethodField()
-    FuelType = serializers.SerializerMethodField()
+    # FuelType = serializers.SerializerMethodField()
     # Odo = serializers.SerializerMethodField()
-    TransmissionType = serializers.SerializerMethodField()
+    FuelType = serializers.ReadOnlyField(source='FuelTypeID.FuelName')
+    # TransmissionType = serializers.SerializerMethodField()
+    TransmissionType = serializers.ReadOnlyField(source='TransmissionTypeID.TransmissionType')
     WoFDue = serializers.SerializerMethodField()
     RegoDue = serializers.SerializerMethodField()
 
@@ -29,31 +31,31 @@ class VehicleInfoSerializer(DynamicFieldsModelSerializer):
             department_string = ''
         return department_string
 
-    def get_FuelType(self, obj):
-        if obj.FuelTypeID:
-            try:
-                fuel_type = FuelTypeIDInfo.objects.get(id=obj.FuelTypeID)
-                fuel_name = fuel_type.FuelName
-            except FuelTypeIDInfo.DoesNotExist:
-                fuel_name = ''
-        else:
-            fuel_name = ''
-        return fuel_name
+    # def get_FuelType(self, obj):
+    #     if obj.FuelTypeID:
+    #         try:
+    #             fuel_type = FuelTypeIDInfo.objects.get(id=obj.FuelTypeID)
+    #             fuel_name = fuel_type.FuelName
+    #         except FuelTypeIDInfo.DoesNotExist:
+    #             fuel_name = ''
+    #     else:
+    #         fuel_name = ''
+    #     return fuel_name
 
     # def get_Odo(self, obj):
     #     # TODO: TBD
     #     return obj.LastOdo
 
-    def get_TransmissionType(self, obj):
-        if obj.TransmissionTypeID:
-            try:
-                transmission_type = TransmissionTypeIDInfo.objects.get(id=obj.TransmissionTypeID)
-                transmission_type = transmission_type.TransmissionType
-            except FuelTypeIDInfo.DoesNotExist:
-                transmission_type = ''
-        else:
-            transmission_type = ''
-        return transmission_type
+    # def get_TransmissionType(self, obj):
+    #     if obj.TransmissionTypeID:
+    #         try:
+    #             transmission_type = TransmissionTypeIDInfo.objects.get(id=obj.TransmissionTypeID)
+    #             transmission_type = transmission_type.TransmissionType
+    #         except FuelTypeIDInfo.DoesNotExist:
+    #             transmission_type = ''
+    #     else:
+    #         transmission_type = ''
+    #     return transmission_type
 
     # def get_VehicleModel(self, obj):
     #     # TODO： 名字不能用VehicleInfo 重名了，需要Sandy改一下

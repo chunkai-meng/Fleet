@@ -174,11 +174,14 @@ class VehicleInfo(BaseModel):
     Manufacturer = models.CharField(db_column='Manufacturer', max_length=30, blank=True, null=True)
     Model = models.CharField(db_column='Model', max_length=30, blank=True, null=True)
     Color = models.CharField(db_column='Color', max_length=30, blank=True, null=True)
-    TransmissionTypeID = models.SmallIntegerField(db_column='TransmissionTypeID', blank=True, null=True)
-    VehicleTypeID = models.IntegerField(db_column='VehicleTypeID', blank=True, null=True)
+    TransmissionTypeID = models.ForeignKey('TransmissionTypeIDInfo', db_column='TransmissionTypeID', blank=True,
+                                           null=True, on_delete=models.PROTECT)
+    VehicleTypeID = models.ForeignKey('VehicleTypeIDInfo', db_column='VehicleTypeID', blank=True, null=True,
+                                      on_delete=models.PROTECT)
     AvailableKm = models.CharField(db_column='AvailableKm', max_length=50, blank=True, null=True)
     DepartmentID = models.CharField(db_column='DepartmentID', max_length=50, blank=True, null=True)
-    FuelTypeID = models.SmallIntegerField(db_column='FuelTypeID', blank=True, null=True)
+    FuelTypeID = models.ForeignKey('FuelTypeIDInfo', db_column='FuelTypeID', blank=True, null=True,
+                                   on_delete=models.PROTECT)
     WoFExpDate = models.DateTimeField(db_column='WoFExpDate', blank=True, null=True)
     RegoExpDate = models.DateTimeField(db_column='RegoExpDate', blank=True, null=True)
     OriginalID = models.IntegerField(db_column='OriginalID', blank=True, null=True)
