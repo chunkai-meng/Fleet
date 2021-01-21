@@ -38,7 +38,7 @@ class UserInfo(BaseModel):
 
 
 class BookingStatusIDInfo(models.Model):
-    StatusID = models.SmallIntegerField(db_column='StatusID', blank=True, null=True)
+    StatusID = models.SmallIntegerField(db_column='StatusID', blank=True, null=True, unique=True)
     StatusName = models.CharField(db_column='StatusName', max_length=30, blank=True, null=True)
     Cdate = models.DateTimeField(db_column='Cdate', blank=True, null=True)
 
@@ -156,7 +156,8 @@ class VehicleBooking(BaseModel):
     Clean = models.SmallIntegerField(db_column='Clean', blank=True, null=True)
     DamageInfo = models.CharField(db_column='DamageInfo', max_length=1200, blank=True, null=True)
     Image = models.CharField(db_column='Image', max_length=200, blank=True, null=True)
-    Status = models.SmallIntegerField(db_column='Status', default=0)
+    Status = models.ForeignKey('BookingStatusIDInfo', db_column='Status', on_delete=models.PROTECT, default=0,
+                               to_field='StatusID')
     OriginalID = models.IntegerField(db_column='OriginalID', blank=True, null=True)
 
     class Meta(BaseModel.Meta):

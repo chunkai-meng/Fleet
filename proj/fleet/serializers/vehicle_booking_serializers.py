@@ -5,6 +5,8 @@ from .. import enums
 
 
 class VehicleBookingSerializer(DynamicFieldsModelSerializer):
+    StatusName = serializers.ReadOnlyField(source='Status.StatusName')
+
     class Meta(DynamicFieldsModelSerializer.Meta):
         model = VehicleBooking
 
