@@ -13,6 +13,7 @@ class VehicleInfoSerializer(DynamicFieldsModelSerializer):
     FuelType = serializers.ReadOnlyField(source='FuelTypeID.FuelName')
     # TransmissionType = serializers.SerializerMethodField()
     TransmissionType = serializers.ReadOnlyField(source='TransmissionTypeID.TransmissionType')
+    VehicleTypeName = serializers.ReadOnlyField(source='VehicleTypeID.VehicleTypename')
     WoFDue = serializers.SerializerMethodField()
     RegoDue = serializers.SerializerMethodField()
 
