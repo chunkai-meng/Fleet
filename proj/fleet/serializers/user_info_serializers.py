@@ -24,7 +24,7 @@ class UserInfoSerializer(DynamicFieldsModelSerializer):
 
         staff = UserProfile.objects.filter(sam_account_name=sam_account_name).first()
         if staff is None:
-            raise serializers.ValidationError("SAMAccountName not exist in Staff")
+            raise serializers.ValidationError("SAMAccountName not exist in accounts_userprofile, please contact admin")
         else:
             data['FirstName'] = staff.first_name
             data['LastName'] = staff.last_name

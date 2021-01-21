@@ -67,3 +67,5 @@ TEMPLATE_CHOICES = [
     ('Vehicle Returned', 'Vehicle Returned'),
 ]
 #
+# API KEYS
+API_KEY_CAS = 'fleet@cas-test'
