@@ -25,7 +25,7 @@ class VehicleTypeViewSet(mixins.ListModelMixin,
 class DepartmentViewSet(mixins.ListModelMixin,
                         viewsets.GenericViewSet):
     serializer_class = DepartmentTypeSerializer
-    queryset = DepartmentIDInfo.objects.all()
+    queryset = DepartmentIDInfo.objects.exclude(DeptName='')
 
 
 class UserRoleInfoViewSet(mixins.ListModelMixin,
