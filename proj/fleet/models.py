@@ -104,9 +104,6 @@ class JobIDInfo(BaseModel):
 def my_custom_sql(query, params):
     with connection.cursor() as cursor:
         cursor.execute(query, params)
-        # row = cursor.fetchone()
-
-    # return row
 
 
 class ServiceForm(BaseModel):

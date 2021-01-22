@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from ..models import ServiceForm, VehicleInfo, WorkshopInfo
 from ..base_serializers import DynamicFieldsModelSerializer
+from .. import enums
 
 
 class ServiceFormSerializer(DynamicFieldsModelSerializer):
@@ -21,3 +22,15 @@ class ServiceFormSerializer(DynamicFieldsModelSerializer):
         if not WorkshopInfo.objects.filter(WorkshopID=value).exists():
             raise serializers.ValidationError("PlateNumber not found")
         return value
+
+    def save(self, **kwargs):
+        instance = super().save(**kwargs)
+        vehicle_pn = instance.PlateNumber
+        vehicle = VehicleInfo.objects.get_or_none(PlateNumber=vehicle_pn)
+        if instance.Status == enums.SERVICE_STATUS_PROCESSING:
+            vehicle.Status = enums.VEHICLE_STATUS_IN_SERVICE
+            vehicle.save()
+        elif instance.Status == enums.SERVICE_STATUS_COMPLETED:
+            vehicle.Status = enums.VEHICLE_STATUS_AVAILABLE
+            vehicle.save()
+        return instance
