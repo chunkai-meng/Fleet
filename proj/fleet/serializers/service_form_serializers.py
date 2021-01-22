@@ -23,6 +23,20 @@ class ServiceFormSerializer(DynamicFieldsModelSerializer):
             raise serializers.ValidationError("PlateNumber not found")
         return value
 
+    def create(self, validated_data):
+
+        vehicle_pn = validated_data.get('PlateNumber', None)
+        print(vehicle_pn)
+        print(ServiceForm.objects.filter(PlateNumber=vehicle_pn, Status=enums.SERVICE_STATUS_PROCESSING))
+        if ServiceForm.objects.filter(PlateNumber=vehicle_pn, Status=enums.SERVICE_STATUS_PROCESSING).exists():
+            in_service_ids = list(
+                ServiceForm.objects.filter(PlateNumber=vehicle_pn, Status=enums.SERVICE_STATUS_PROCESSING
+                                           ).values_list('id', flat=True))
+            raise serializers.ValidationError(
+                f'{vehicle_pn} is in service {in_service_ids} please complete before adding a new one')
+
+        return super().create(validated_data)
+
     def save(self, **kwargs):
         instance = super().save(**kwargs)
         vehicle_pn = instance.PlateNumber
