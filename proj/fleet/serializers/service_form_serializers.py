@@ -9,7 +9,7 @@ class ServiceFormSerializer(DynamicFieldsModelSerializer):
 
     class Meta:
         model = ServiceForm
-        fields = ('id', 'SN', 'WorkshopID', 'WorkshopName', 'PlateNumber', 'ServiceName',
+        fields = ('id', 'SN', 'WorkshopID', 'WorkshopName', 'PlateNumber', 'ServiceName', 'Status',
                   'ServicePrice', 'StartDate', 'EndDate', 'CreatedBy')
 
     def validate_PlateNumber(self, value):

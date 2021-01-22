@@ -117,6 +117,7 @@ class ServiceForm(BaseModel):
     ServicePrice = models.FloatField(db_column='ServicePrice')
     StartDate = models.DateTimeField(db_column='StartDate')
     EndDate = models.DateTimeField(db_column='EndDate')
+    Status = models.SmallIntegerField(db_column='Status', choices=enums.SERVICE_STATUS_CHOICES, default=0)
     OriginalID = models.IntegerField(db_column='OriginalID', blank=True, null=True)
 
     class Meta(BaseModel.Meta):
