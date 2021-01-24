@@ -8,7 +8,7 @@ from .models import JobIDInfo
 
 
 def send_new_request_email(instance):
-    template_obj = Template.objects.get(category=Template.CHECKOUT_REQUEST)
+    template_obj = Template.objects.get(category='Job Code Created')
     email_to_group = Group.objects.get(name='Fleet')
     email_dict = {
         'if_email_notify': True,

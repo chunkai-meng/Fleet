@@ -26,8 +26,6 @@ class ServiceFormSerializer(DynamicFieldsModelSerializer):
     def create(self, validated_data):
 
         vehicle_pn = validated_data.get('PlateNumber', None)
-        print(vehicle_pn)
-        print(ServiceForm.objects.filter(PlateNumber=vehicle_pn, Status=enums.SERVICE_STATUS_PROCESSING))
         if ServiceForm.objects.filter(PlateNumber=vehicle_pn, Status=enums.SERVICE_STATUS_PROCESSING).exists():
             in_service_ids = list(
                 ServiceForm.objects.filter(PlateNumber=vehicle_pn, Status=enums.SERVICE_STATUS_PROCESSING

@@ -63,6 +63,7 @@ DEFAULT_FROM_EMAIL = 'no-reply@waiwhanau.com'
 
 TEMPLATE_CHOICES = [
     # notify
+    ('Job Code Created', 'Job Code Created'),
     ('Vehicle Booked', 'Vehicle Booked'),
     ('Vehicle Returned', 'Vehicle Returned'),
 ]
