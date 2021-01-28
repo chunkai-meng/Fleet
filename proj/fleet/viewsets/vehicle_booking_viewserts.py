@@ -39,6 +39,11 @@ class VehicleBookingViewSet(BaseViewSetMixin,
         queryset = self.get_queryset().filter(UserID=current_user.UserID.hex)
         if sn:
             queryset = queryset.filter(SN=sn)
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 

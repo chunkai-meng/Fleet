@@ -140,7 +140,7 @@ class VehicleBooking(BaseModel):
     BookingStartAt = models.DateTimeField(db_column='BookingStartAt', blank=True, null=True)
     BookingEndAt = models.DateTimeField(db_column='BookingEndAt', blank=True, null=True)
     DepartmentID = models.CharField(db_column='DepartmentID', max_length=50, blank=True, null=True)
-    JobCodeID = models.IntegerField(db_column='JobCodeID', blank=True, null=True)
+    JobCodeID = models.ForeignKey(JobIDInfo, db_column='JobCodeID', blank=True, null=True, on_delete=models.PROTECT)
     UserID = models.UUIDField(db_column='UserID', max_length=50, blank=True, null=True)
     VehicleID = models.UUIDField(db_column='VehicleID', max_length=50, blank=True, null=True)
     BookingReason = models.CharField(db_column='BookingReason', max_length=1200, blank=True, null=True)
