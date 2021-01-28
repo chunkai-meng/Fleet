@@ -5,9 +5,9 @@ from .enums import STATUS_DELETED, MSG_NOT_FOUND
 
 class BaseModel(models.Model):
     """Abstract DB Base Model"""
-    CreatedByID = models.CharField(db_column='CreatedByID', max_length=50, blank=True, null=True, editable=False)
+    CreatedByID = models.UUIDField(db_column='CreatedByID', max_length=50, blank=True, null=True, editable=False)
     CreatedAt = models.DateTimeField(db_column='CreatedAt', auto_now_add=True, editable=False)
-    UpdatedByID = models.CharField(db_column='UpdatedByID', max_length=50, blank=True, null=True, editable=False)
+    UpdatedByID = models.UUIDField(db_column='UpdatedByID', max_length=50, blank=True, null=True, editable=False)
     UpdatedAt = models.DateTimeField(db_column='UpdatedAt', auto_now=True, editable=False)
     Status = models.SmallIntegerField(db_column='Status', default=1)
     Cdate = models.DateTimeField(db_column='Cdate', blank=True, null=True)

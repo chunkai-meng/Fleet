@@ -13,6 +13,11 @@ class VehicleBookingSerializer(DynamicFieldsModelSerializer):
     def validate(self, attrs):
         v_id = attrs.get('VehicleID', '')
         vehicle = VehicleInfo.objects.get_or_none(VehicleID=v_id)
+        if vehicle.Status == 1 and self.instance is None:
+            vehicle.Status = 0
+            vehicle.save()
+        elif vehicle.Status == 0 and self.instance is None:
+            raise serializers.ValidationError("This vehicle has been booked")
         started_mileage = vehicle and vehicle.LastOdo or 0
         attrs['StartedMileage'] = started_mileage
         return attrs

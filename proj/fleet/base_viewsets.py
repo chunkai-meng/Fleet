@@ -48,12 +48,12 @@ class BaseViewSetMixin(object):
         """Ensure we have the authorized user for ownership."""
         # user = UserInfo.objects.get(SAMAccountName=self.request.user.sam_account_name)
         user = self.get_current_user(self.request)
-        serializer.save(CreatedByID=user.UserID.hex)
+        serializer.save(CreatedByID=user.UserID)
 
     def perform_update(self, serializer):
         """Ensure we have the authorized user for ownership."""
         user = self.get_current_user(self.request)
-        serializer.save(UpdatedByID=user.UserID.hex)
+        serializer.save(UpdatedByID=user.UserID)
 
     def get_serializer(self, *args, **kwargs):
         try:

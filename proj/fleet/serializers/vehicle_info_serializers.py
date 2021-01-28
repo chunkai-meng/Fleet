@@ -16,6 +16,7 @@ class VehicleInfoSerializer(DynamicFieldsModelSerializer):
     VehicleTypeName = serializers.ReadOnlyField(source='VehicleTypeID.VehicleTypename')
     WoFDue = serializers.SerializerMethodField()
     RegoDue = serializers.SerializerMethodField()
+    CreatedByID = serializers.SerializerMethodField()
 
     # VehicleModel = serializers.SerializerMethodField()
 
@@ -31,6 +32,9 @@ class VehicleInfoSerializer(DynamicFieldsModelSerializer):
         else:
             department_string = ''
         return department_string
+
+    def get_CreatedByID(self, obj):
+        return obj.CreatedByID
 
     # def get_FuelType(self, obj):
     #     if obj.FuelTypeID:
