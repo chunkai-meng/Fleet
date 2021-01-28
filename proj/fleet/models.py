@@ -141,8 +141,8 @@ class VehicleBooking(BaseModel):
     BookingEndAt = models.DateTimeField(db_column='BookingEndAt', blank=True, null=True)
     DepartmentID = models.CharField(db_column='DepartmentID', max_length=50, blank=True, null=True)
     JobCodeID = models.IntegerField(db_column='JobCodeID', blank=True, null=True)
-    UserID = models.CharField(db_column='UserID', max_length=32, blank=True, null=True)
-    VehicleID = models.CharField(db_column='VehicleID', max_length=32, blank=True, null=True)
+    UserID = models.CharField(db_column='UserID', max_length=50, blank=True, null=True)
+    VehicleID = models.CharField(db_column='VehicleID', max_length=50, blank=True, null=True)
     BookingReason = models.CharField(db_column='BookingReason', max_length=1200, blank=True, null=True)
     BookingNotes = models.CharField(db_column='BookingNotes', max_length=1200, blank=True, null=True)
     AdminNotes = models.CharField(db_column='AdminNotes', max_length=1200, blank=True, null=True)
@@ -154,6 +154,12 @@ class VehicleBooking(BaseModel):
     Clean = models.SmallIntegerField(db_column='Clean', blank=True, null=True)
     DamageInfo = models.CharField(db_column='DamageInfo', max_length=1200, blank=True, null=True)
     Image = models.CharField(db_column='Image', max_length=200, blank=True, null=True)
+    PickupLocation = models.CharField(max_length=600, blank=True)
+    PickupLongitude = models.CharField(max_length=50, blank=True)
+    PickupLatitude = models.CharField(max_length=50, blank=True)
+    ReturnedLocation = models.CharField(max_length=600, blank=True)
+    ReturnedLongitude = models.CharField(max_length=50, blank=True)
+    ReturnedLatitude = models.CharField(max_length=50, blank=True)
     Status = models.ForeignKey('BookingStatusIDInfo', db_column='Status', on_delete=models.PROTECT, default=0,
                                to_field='StatusID')
     OriginalID = models.IntegerField(db_column='OriginalID', blank=True, null=True)
@@ -184,6 +190,9 @@ class VehicleInfo(BaseModel):
     WoFExpDate = models.DateTimeField(db_column='WoFExpDate', blank=True, null=True)
     RegoExpDate = models.DateTimeField(db_column='RegoExpDate', blank=True, null=True)
     OriginalID = models.IntegerField(db_column='OriginalID', blank=True, null=True)
+    Location = models.CharField(max_length=600, blank=True)
+    Longitude = models.CharField(max_length=50, blank=True)
+    Latitude = models.CharField(max_length=50, blank=True)
     Status = models.SmallIntegerField(db_column='Status', choices=enums.VEHICLE_STATUS_CHOICES, default=1)
 
     class Meta(BaseModel.Meta):
