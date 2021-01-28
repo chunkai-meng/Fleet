@@ -49,9 +49,9 @@ class BookingStatusIDInfo(models.Model):
 
 class DepartmentIDInfo(models.Model):
     DeptName = models.CharField(db_column='DeptName', max_length=30, blank=True, null=True)
-    CreatedByID = models.CharField(db_column='CreatedByID', max_length=32, blank=True, null=True)
+    CreatedByID = models.UUIDField(db_column='CreatedByID', max_length=32, blank=True, null=True)
     CreatedAt = models.DateTimeField(db_column='CreatedAt', blank=True, null=True)
-    UpdatedByID = models.CharField(db_column='UpdatedByID', max_length=32, blank=True, null=True)
+    UpdatedByID = models.UUIDField(db_column='UpdatedByID', max_length=32, blank=True, null=True)
     UpdatedAt = models.DateTimeField(db_column='UpdatedAt', blank=True, null=True)
     OriginalDeptID = models.IntegerField(db_column='OriginalDeptID')
     Cdate = models.DateTimeField(db_column='Cdate', blank=True, null=True)
@@ -230,9 +230,9 @@ class WorkshopInfo(BaseModel):
 class UserRoleInfo(models.Model):
     RoleID = models.PositiveSmallIntegerField(db_column='RoleID')
     RoleDescription = models.CharField(db_column='RoleDescription', max_length=30, blank=True)
-    CreatedByID = models.CharField(db_column='CreatedByID', max_length=50, blank=True, null=True, editable=False)
+    CreatedByID = models.UUIDField(db_column='CreatedByID', max_length=50, blank=True, null=True, editable=False)
     CreatedAt = models.DateTimeField(db_column='CreatedAt', auto_now_add=True, editable=False)
-    UpdatedByID = models.CharField(db_column='UpdatedByID', max_length=50, blank=True, null=True, editable=False)
+    UpdatedByID = models.UUIDField(db_column='UpdatedByID', max_length=50, blank=True, null=True, editable=False)
     UpdatedAt = models.DateTimeField(db_column='UpdatedAt', auto_now=True, editable=False)
     Cdate = models.DateTimeField(db_column='Cdate', blank=True, null=True)
 
@@ -244,9 +244,9 @@ class UserRoleInfo(models.Model):
 class LicenseClassInfo(models.Model):
     ClassID = models.CharField(db_column='ClassID', max_length=30)
     LicenseClass = models.CharField(db_column='LicenseClass', max_length=200, blank=True)
-    CreatedByID = models.CharField(db_column='CreatedByID', max_length=50, blank=True, null=True, editable=False)
+    CreatedByID = models.UUIDField(db_column='CreatedByID', max_length=50, blank=True, null=True, editable=False)
     CreatedAt = models.DateTimeField(db_column='CreatedAt', auto_now_add=True, editable=False)
-    UpdatedByID = models.CharField(db_column='UpdatedByID', max_length=50, blank=True, null=True, editable=False)
+    UpdatedByID = models.UUIDField(db_column='UpdatedByID', max_length=50, blank=True, null=True, editable=False)
     UpdatedAt = models.DateTimeField(db_column='UpdatedAt', auto_now=True, editable=False)
     Cdate = models.DateTimeField(db_column='Cdate', blank=True, null=True)
 
