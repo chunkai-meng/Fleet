@@ -96,7 +96,8 @@ class VehicleBookingViewSet(BaseViewSetMixin,
         = Sandy's /API/VehicleBooking/PendingApprove/Reject
         """
         obj = self.get_object()
-        if obj.Status.StatusName == 0:
+        # print('Booking Status', obj.Status.StatusID)
+        if obj.Status.StatusID == 0:
             obj.Status = BookingStatusIDInfo.objects.get(StatusName='Rejected')
             obj.save()
             serializer = self.get_serializer(obj, many=False)
