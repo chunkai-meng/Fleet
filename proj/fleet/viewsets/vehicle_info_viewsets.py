@@ -59,7 +59,8 @@ class VehicleInfoViewSet(BaseViewSetMixin,
     """
 
     serializer_class = VehicleInfoSerializer
-    queryset = VehicleInfo.objects.all()
+    queryset = VehicleInfo.objects.all().order_by('LastOdo')
+
     default_fields = ('id',
                       'Status', 'LastKnownOdo', 'LastOdo', 'Manufacturer', 'Model',
                       'AvailableKm', 'CreatedBy', 'DepartmentName', 'DepartmentID',

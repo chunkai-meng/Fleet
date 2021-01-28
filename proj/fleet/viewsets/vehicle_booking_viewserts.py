@@ -3,7 +3,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from api_base import viewsets
 from ..base_viewsets import BaseViewSetMixin
-from ..models import VehicleBooking, UserInfo, VehicleInfo
+from ..models import VehicleBooking, UserInfo, VehicleInfo, BookingStatusIDInfo
 from ..serializers.vehicle_booking_serializers import VehicleBookingSerializer
 
 
@@ -74,9 +74,10 @@ class VehicleBookingViewSet(BaseViewSetMixin,
         = Sandy's /API/VehicleBooking/PendingApprove/Submitted
         """
         obj = self.get_object()
-        if obj.Status == 0:
+        # print('booking status:', obj.Status.StatusID)
+        if obj.Status.StatusID == 0:
             obj.__dict__.update(request.data)
-            obj.Status = 1
+            obj.Status = BookingStatusIDInfo.objects.get(StatusName='Approved')
             obj.save()
 
             # update vehicle
@@ -95,9 +96,9 @@ class VehicleBookingViewSet(BaseViewSetMixin,
         = Sandy's /API/VehicleBooking/PendingApprove/Reject
         """
         obj = self.get_object()
-        if obj.Status == 0:
-            obj.Status = 2
-            obj.save
+        if obj.Status.StatusName == 0:
+            obj.Status = BookingStatusIDInfo.objects.get(StatusName='Rejected')
+            obj.save()
             serializer = self.get_serializer(obj, many=False)
             return Response(serializer.data)
         else:
