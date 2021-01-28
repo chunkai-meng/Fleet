@@ -38,4 +38,4 @@ class VehicleBookingSerializer(DynamicFieldsModelSerializer):
         try:
             return obj.JobCodeID.JobName
         except JobIDInfo.DoesNotExist:
-            return ''
+            raise serializers.ValidationError(f"Related JobIDInfo not found. (Booking SN:{obj.SN})")
