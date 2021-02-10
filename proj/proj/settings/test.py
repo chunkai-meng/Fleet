@@ -5,7 +5,8 @@ DEBUG = True
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
-    '192.168.26.99'
+    '192.168.26.99',
+    'fleet.waipareira.com'
 ]
 
 # Debug Tool
