@@ -83,6 +83,10 @@ AUTHENTICATION_BACKENDS = (
 )
 
 WSGI_APPLICATION = 'proj.wsgi.application'
+
+CORS_ALLOWED_ORIGINS = [
+    'http://fleettest.waicloud.co',
+]
 CORS_ALLOW_ALL_ORIGINS = True
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
